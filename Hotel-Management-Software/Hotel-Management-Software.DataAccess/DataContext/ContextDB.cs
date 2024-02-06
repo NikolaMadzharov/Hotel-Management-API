@@ -7,9 +7,16 @@ namespace Hotel_Management_Software.DataAccess.DataContext
     public class ContextDB:DbContext
     {
 
-        public ContextDB(DbContextOptions<ContextDB> options) : base(options) { }
+        public ContextDB(DbContextOptions options) : base(options) { }
 
         public DbSet<Hotel> Hotels { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+           
+
+            base.OnModelCreating(builder);
+
+        }
     }
 }

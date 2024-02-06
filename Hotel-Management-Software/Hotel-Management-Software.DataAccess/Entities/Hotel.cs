@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 public class Hotel
 {
+    [Key]
     public int HotelId { get; set; }
 
     [Required]
@@ -27,8 +28,6 @@ public class Hotel
     [Required]
     public string HotelPasswordHash { get; set; } = null!;
 
-    [Required]
-    public string HotelPasswordSalt { get; set; } = null!;
 
 
 
