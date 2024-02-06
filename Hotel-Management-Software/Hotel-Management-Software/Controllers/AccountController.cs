@@ -27,5 +27,21 @@ namespace Hotel_Management_Software.Controllers
 
             return BadRequest();
         }
+
+        [HttpPost("Login/Hotel")]
+        public async Task<IActionResult> Register([FromForm] HotelForLoginDTO hotelToLogDTO)
+        {
+            var result = await _hotelService.LoginAsync(hotelToLogDTO);
+
+            if (result is null)
+            { 
+                return BadRequest();
+          
+            }
+
+            return Ok(new {Token = result});
+
+           
+        }
     }
 }

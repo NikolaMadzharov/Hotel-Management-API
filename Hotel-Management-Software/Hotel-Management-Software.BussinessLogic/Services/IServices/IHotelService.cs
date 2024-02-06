@@ -3,5 +3,7 @@ using Hotel_Management_Software.DTO.Hotel;
 
 public interface IHotelService
 {
-    Task<bool> RegisterAsync(HotelToAddDTO createHoteModel);
+    Task<bool> RegisterAsync(HotelToAddDTO createHotelDTO);
+
+    Task<string> LoginAsync(HotelForLoginDTO loginHotelDTO);
 }

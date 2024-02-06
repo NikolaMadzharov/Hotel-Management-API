@@ -4,17 +4,39 @@ using Hotel_Management_Software.BussinessLogic.Services.IServices;
 using Hotel_Management_Software.DataAccess.Entities;
 using Hotel_Management_Software.DataAccess.Repositories.IRepositories;
 using Hotel_Management_Software.DTO.Hotel;
-
-
+using Microsoft.Extensions.Configuration;
 
 public class HotelService : IHotelService
 {
     
     private readonly IHotelRepository _hotelRepository;
+    private readonly IConfiguration _configuration;
 
-    public HotelService(IHotelRepository hotelRepository)
+    public HotelService(IHotelRepository hotelRepository, 
+        IConfiguration configuration)
     {
         _hotelRepository = hotelRepository;
+        _configuration = configuration;
+    }
+
+    public async Task<string> LoginAsync(HotelForLoginDTO loginHotelDTO)
+    {
+       
+      
+
+       
+        var hotel = await _hotelRepository.GetAsync(x => x.LoginNumber == loginHotelDTO.LoginCode);
+
+        var IsSame = PasswordHasher.VerifyPassword(hotel.HotelPasswordHash, loginHotelDTO.Password);
+
+        if (IsSame == false) 
+        {
+            return "1";
+        }
+
+        var token = JwtHelper.GenerateToken(hotel, _configuration);
+
+        return token;
     }
 
     public async Task<bool> RegisterAsync(HotelToAddDTO createHoteModel)
@@ -31,7 +53,7 @@ public class HotelService : IHotelService
             HotelName = createHoteModel.HotelName,
             HotelPicture = memoryStream.ToArray(),
             HotelPasswordHash = PasswordHasher.HashPassword(createHoteModel.Password),
-            LoginNumber = 19121912,
+            LoginNumber = RandomGenerator.Generate(),
 
 
         };
