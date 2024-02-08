@@ -1,4 +1,4 @@
-﻿namespace Hotel_Management_Software.DataAccess.Entities;
+﻿namespace Hotel_Management_Software.DAL;
 using System.ComponentModel.DataAnnotations;
 
 

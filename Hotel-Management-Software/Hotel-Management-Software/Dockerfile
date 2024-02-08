@@ -12,7 +12,7 @@ WORKDIR /src
 COPY ["Hotel-Management-Software/Hotel-Management-Software.API.csproj", "Hotel-Management-Software/"]
 COPY ["Hotel-Management-Software.BussinessLogic/Hotel-Management-Software.BLL.csproj", "Hotel-Management-Software.BussinessLogic/"]
 COPY ["Hotel-Management-Software.DAL/Hotel-Management-Software.DAL.csproj", "Hotel-Management-Software.DataAccess/"]
-COPY ["Hotel-Management-Software.DTO/Hotel-Management-Software.DTO.csproj", "Hotel-Management-Software.DTO/"]
+COPY ["Hotel-Management-Software/Hotel-Management-Software.DTO.csproj", "Hotel-Management-Software.DTO/"]
 RUN dotnet restore "./Hotel-Management-Software/./Hotel-Management-Software.API.csproj"
 COPY . .
 WORKDIR "/src/Hotel-Management-Software"
