@@ -1,7 +1,7 @@
 ﻿namespace Hotel_Management_Software.BussinessLogic.Services;
 using Hotel_Management_Software.BussinessLogic.Helpers;
 using Hotel_Management_Software.BussinessLogic.Services.IServices;
-using Hotel_Management_Software.DataAccess.Entities;
+using Hotel_Management_Software.DAL;
 using Hotel_Management_Software.DataAccess.Repositories.IRepositories;
 using Hotel_Management_Software.DTO.Hotel;
 using Microsoft.Extensions.Configuration;

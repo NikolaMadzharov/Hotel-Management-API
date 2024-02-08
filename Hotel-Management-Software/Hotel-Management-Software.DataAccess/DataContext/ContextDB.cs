@@ -1,4 +1,4 @@
-﻿using Hotel_Management_Software.DataAccess.Entities;
+﻿using Hotel_Management_Software.DAL;
 using Microsoft.EntityFrameworkCore;
 
 

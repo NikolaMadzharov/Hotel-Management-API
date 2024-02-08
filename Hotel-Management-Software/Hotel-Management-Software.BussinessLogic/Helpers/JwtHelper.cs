@@ -1,6 +1,6 @@
 ﻿namespace Hotel_Management_Software.BussinessLogic.Helpers;
 
-using Hotel_Management_Software.DataAccess.Entities;
+using Hotel_Management_Software.DAL;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
