@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Hotel_Management_Software.DTO.Hotel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Hotel_Management_Software.DTO.Hotel
+
+
+
+public class HotelForLoginDTO
 {
-    public class HotelForLoginDTO
-    {
-        [Required]
-        public int LoginCode { get; set; }
-        [Required]
-        public string Password { get; set; } = null!;
-    }
+    [Required]
+    public int LoginCode { get; set; }
+    [Required]
+    public string Password { get; set; } = null!;
 }
