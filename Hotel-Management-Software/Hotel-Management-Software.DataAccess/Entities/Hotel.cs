@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 public class Hotel
 {
     [Key]
-    public int HotelId { get; set; }
+    public int HotelId { get; set; } // guild
 
     [Required]
     public string HotelName { get; set; } = null!;

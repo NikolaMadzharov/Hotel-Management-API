@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Text;
 
 
-public static  class JwtHelper
+public static class JwtHelper
 {
 
     public static string GenerateToken(Hotel hotel, IConfiguration configuration)
