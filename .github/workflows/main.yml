@@ -13,5 +13,6 @@ jobs:
     uses: ./.github/workflows/docker-publish.yml
 
   update-db:
+    needs: build
     name: Apply migrations
     uses: ./.github/workflows/update-db.yml
