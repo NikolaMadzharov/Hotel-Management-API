@@ -26,4 +26,4 @@ jobs:
           CONNECTION_STRING: ${{ secrets.CONNECTION_STRING }}
         run: |
           dotnet ef database update --connection "${CONNECTION_STRING}"
-        working-directory: Hotel-Management-Software
+        working-directory: Hotel-Management-Software/Hotel-Management-Software
