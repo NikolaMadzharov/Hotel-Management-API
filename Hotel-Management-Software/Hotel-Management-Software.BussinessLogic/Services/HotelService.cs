@@ -1,4 +1,6 @@
 ﻿namespace Hotel_Management_Software.BussinessLogic.Services;
+
+using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.BussinessLogic.Helpers;
 using Hotel_Management_Software.BussinessLogic.Services.IServices;
 using Hotel_Management_Software.DAL;
@@ -11,12 +13,15 @@ public class HotelService : IHotelService
     
     private readonly IHotelRepository _hotelRepository;
     private readonly IConfiguration _configuration;
+    private readonly IEmailService _emailService;
 
     public HotelService(IHotelRepository hotelRepository, 
-        IConfiguration configuration)
+        IConfiguration configuration, 
+        IEmailService emailService)
     {
         _hotelRepository = hotelRepository;
         _configuration = configuration;
+        _emailService = emailService;
     }
 
     public async Task<string> LoginAsync(HotelForLoginDTO loginHotelDTO)
@@ -59,6 +64,8 @@ public class HotelService : IHotelService
         };
 
        await _hotelRepository.AddAsync(HotelToAddDTO);
+
+        await _emailService.SendLoginCodeAsync(HotelToAddDTO);
 
         return true;
     }
