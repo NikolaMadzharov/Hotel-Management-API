@@ -1,0 +1,17 @@
+name: Build and deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    name: Deploy
+    uses: ././github/workflows/docker-publish.yml
+
+  update-db:
+    name: Apply migrations
+    uses: ././github/workflows/update-db.yml
