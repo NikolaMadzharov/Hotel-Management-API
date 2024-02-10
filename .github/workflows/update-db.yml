@@ -22,8 +22,8 @@ jobs:
         run: dotnet tool install --global dotnet-ef
     
       - name: Update Database
-        # env:
-        #   CONNECTION_STRING: ${{ secrets.CONNECTION_STRING }}
+        env:
+          CONNECTION_STRING: ${{ secrets.CONNECTION_STRING }}
         run: |
           dotnet ef database update --connection "${CONNECTION_STRING}"
         working-directory: Hotel-Management-Software/Hotel-Management-Software
