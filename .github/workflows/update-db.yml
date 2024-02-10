@@ -9,21 +9,21 @@ jobs:
     name: Apply migrations
     runs-on: ubuntu-latest
 
-  steps:
-    - name: Checkout repository
-    uses: actions/checkout@v4
-
-  - name: Set up .NET Core
-    uses: actions/setup-dotnet@v4
-    with:
-      dotnet-version: '8.x'
-
-  - name: Install dotnet-ef
-    run: dotnet tool install --global dotnet-ef
-
-  - name: Update Database
-    env:
-      CONNECTION_STRING: ${{ secrets.CONNECTION_STRING }}
-    run: |
-      dotnet ef database update --connection "${CONNECTION_STRING}"
-    working-directory: Hotel-Management-Software
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+    
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+    
+      - name: Install dotnet-ef
+        run: dotnet tool install --global dotnet-ef
+    
+      - name: Update Database
+        env:
+          CONNECTION_STRING: ${{ secrets.CONNECTION_STRING }}
+        run: |
+          dotnet ef database update --connection "${CONNECTION_STRING}"
+        working-directory: Hotel-Management-Software
