@@ -1,6 +1,7 @@
 ﻿namespace Hotel_Management_Software.BussinessLogic.Helpers;
 
 using Hotel_Management_Software.DAL;
+using Hotel_Management_Software.DAL.Entities.ApplicationUser;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,7 +12,7 @@ using System.Text;
 public static class JwtHelper
 {
 
-    public static string GenerateToken(Hotel hotel, IConfiguration configuration)
+    public static string GenerateToken(ApplicationUser user, IConfiguration configuration)
     {
         var key = Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!);
 
@@ -21,9 +22,9 @@ public static class JwtHelper
         {
             Subject = new ClaimsIdentity(new[]
             {
-            new Claim("HotelId", hotel.HotelId.ToString()),
-            new Claim(ClaimTypes.Name, hotel.HotelName),
-            new Claim(ClaimTypes.Email, hotel.HotelEmailAddress)
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim("ProfilePicture", user.ProfilePicture.ToString()),
+            new Claim("FullName", $"{user.FirstName} {user.LastName}")
         }),
             Expires = DateTime.UtcNow.AddHours(1),
             SigningCredentials =

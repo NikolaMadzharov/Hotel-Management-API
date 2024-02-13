@@ -1,17 +1,18 @@
 ﻿namespace Hotel_Management_Software.BBL.Services;
 using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.DAL;
+using Hotel_Management_Software.DAL.Entities.ApplicationUser;
 using MailKit.Net.Smtp;
 using MimeKit;
 using System.Threading.Tasks;
 
 public class EmailService : IEmailService
 {
-    public async Task SendLoginCodeAsync(Hotel hotelDTO)
+    public async Task SendLoginCodeAsync(ApplicationUser UserToDTO)
     {
         var email = new MimeMessage();
         email.From.Add(MailboxAddress.Parse("innkeepershotelmanagement@gmail.com"));
-        email.To.Add(MailboxAddress.Parse(hotelDTO.HotelEmailAddress)); 
+        email.To.Add(MailboxAddress.Parse(UserToDTO.Email));
         email.Subject = "Your Login Number";
 
         var htmlBody = $@"
@@ -61,7 +62,7 @@ public class EmailService : IEmailService
             <body>
                 <div class='container'>
                     <h1>Login Number</h1>
-                    <p class='code'>{hotelDTO.LoginNumber}</p>
+                    <p class='code'>{UserToDTO.UserName}</p>
                     <p class='note'>You will need this number in order to log in our software!</p>
                 </div>
             </body>
@@ -72,8 +73,8 @@ public class EmailService : IEmailService
         email.Body = builder.ToMessageBody();
 
         using var smtp = new SmtpClient();
-        await smtp.ConnectAsync("smtp.gmail.com", 587, false); 
-        await smtp.AuthenticateAsync("innkeepershotelmanagement@gmail.com", "tdwgmatlsyofcuga"); 
+        await smtp.ConnectAsync("smtp.gmail.com", 587, false);
+        await smtp.AuthenticateAsync("innkeepershotelmanagement@gmail.com", "tdwgmatlsyofcuga"); // needs to be hiddden somewhere else
         await smtp.SendAsync(email);
         await smtp.DisconnectAsync(true);
     }

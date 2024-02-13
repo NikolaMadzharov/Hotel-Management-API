@@ -1,5 +1,5 @@
-﻿using Hotel_Management_Software.BussinessLogic.Services.IServices;
-using Hotel_Management_Software.DTO.Hotel;
+﻿using Hotel_Management_Software.BBL.Services.IServices;
+using Hotel_Management_Software.DTO.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hotel_Management_Software.Controllers
@@ -8,40 +8,37 @@ namespace Hotel_Management_Software.Controllers
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
-        private readonly IHotelService _hotelService;
+        private readonly IUserService _userService;
 
-        public AccountController(IHotelService hotelService)
+        public AccountController(IUserService userService)
         {
-            _hotelService = hotelService;
+            _userService = userService;
         }
 
-        [HttpPost("Register/Hotel")]
-        public async Task<IActionResult> Register([FromForm] HotelToAddDTO hotelToAddDTO)
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromForm]UserToAddDTO userToAddDTO)
         {
-           var result = await _hotelService.RegisterAsync(hotelToAddDTO);
+            var result = await _userService.RegisterAsync(userToAddDTO);
 
             if (result is true)
             {
-                return Ok();
+                return Ok(new { Success = result });
             }
 
-            return BadRequest();
+            return BadRequest(new { Success = result });
         }
 
-        [HttpPost("Login/Hotel")]
-        public async Task<IActionResult> Register([FromForm] HotelForLoginDTO hotelToLogDTO)
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromForm] UserLoginDTO userToLoginDTO)
         {
-            var result = await _hotelService.LoginAsync(hotelToLogDTO);
+            var result = await _userService.LoginAsync(userToLoginDTO);
 
-            if (result is null)
-            { 
-                return BadRequest();
-          
+            if (result is not null)
+            {
+                return Ok(new { Success = result });
             }
 
-            return Ok(new {Token = result});
-
-           
+            return BadRequest(new { Success = result });
         }
     }
 }

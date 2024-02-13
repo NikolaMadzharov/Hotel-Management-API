@@ -1,9 +1,12 @@
-﻿
-namespace Hotel_Management_Software.DataAccess;
+﻿namespace Hotel_Management_Software.DataAccess;
 
+using Hotel_Management_Software.DAL.Repositories;
+using Hotel_Management_Software.DAL.Repositories.IRepositories;
 using Hotel_Management_Software.DataAccess.DataContext;
-using Hotel_Management_Software.DataAccess.Repositories;
-using Hotel_Management_Software.DataAccess.Repositories.IRepositories;
+
+
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +22,10 @@ public static class DependecyInjection
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
         });
 
-       services.AddScoped<IHotelRepository, HotelRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+
+       
     }
+
+   
 }
