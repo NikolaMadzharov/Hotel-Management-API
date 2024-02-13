@@ -1,17 +1,18 @@
 ﻿
 namespace Hotel_Management_Software.DataAccess.DataContext;
-using Hotel_Management_Software.DAL;
+using Hotel_Management_Software.DAL.Entities.ApplicationUser;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
 
 
-public class ContextDB:DbContext
+public class ContextDB:IdentityDbContext<ApplicationUser>
 {
 
     public ContextDB(DbContextOptions options) : base(options) { }
 
-    public DbSet<Hotel> Hotels { get; set; }
+  
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

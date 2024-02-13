@@ -4,6 +4,9 @@ using Hotel_Management_Software.BussinessLogic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Hotel_Management_Software.DAL.Entities.ApplicationUser;
+using Hotel_Management_Software.DataAccess.DataContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,18 @@ builder.Services.AddCors(options =>
             .AllowCredentials();
     });
 });
+
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequiredLength = 6;
+    options.User.RequireUniqueEmail = false;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+})
+    .AddEntityFrameworkStores<ContextDB>()
+    .AddDefaultTokenProviders();
+
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
