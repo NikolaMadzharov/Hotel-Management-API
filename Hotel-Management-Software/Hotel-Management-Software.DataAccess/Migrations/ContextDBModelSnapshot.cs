@@ -63,7 +63,7 @@ namespace Hotel_Management_Software.DAL.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("MidleName")
+                    b.Property<string>("MiddleName")
                         .HasColumnType("text");
 
                     b.Property<string>("NormalizedEmail")
@@ -131,6 +131,10 @@ namespace Hotel_Management_Software.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<byte[]>("ProfilePicture")
                         .HasColumnType("bytea");
 
@@ -139,6 +143,8 @@ namespace Hotel_Management_Software.DAL.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Hotels");
                 });
@@ -275,6 +281,17 @@ namespace Hotel_Management_Software.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Hotel_Management_Software.DAL.Entities.Hotel", b =>
+                {
+                    b.HasOne("Hotel_Management_Software.DAL.Entities.ApplicationUser.ApplicationUser", "Owner")
+                        .WithMany("Hotels")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -324,6 +341,11 @@ namespace Hotel_Management_Software.DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Hotel_Management_Software.DAL.Entities.ApplicationUser.ApplicationUser", b =>
+                {
+                    b.Navigation("Hotels");
                 });
 #pragma warning restore 612, 618
         }
