@@ -1,6 +1,7 @@
 ﻿namespace Hotel_Management_Software.BBL.Services;
 
 using AutoMapper;
+using Hotel_Management_Software.BBL.Exceptions;
 using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.BussinessLogic.Helpers;
 using Hotel_Management_Software.DAL.Entities.ApplicationUser;
@@ -37,7 +38,16 @@ public class UserService : IUserService
     {
         var user = await _userRepository.GetAsync(x => x.UserName == userToLoginDTO.LoginCode);
 
+
         var result = await _signInManager.CheckPasswordSignInAsync(user, userToLoginDTO.Password, false);
+
+
+        if (result.Succeeded is false)
+        {
+            throw new CustomException("Invalid login code or password!", 400);
+
+        }
+
 
         var token = JwtHelper.GenerateToken(user, _configuration);
 
