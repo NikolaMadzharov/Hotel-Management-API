@@ -14,11 +14,11 @@ public static class DepedencyInjection
     public static void RegisterBLLDependencies(this IServiceCollection services, IConfiguration Configuration)
     {
         services.AddAutoMapper(typeof(UserProfile));
+        services.AddAutoMapper(typeof(HotelProfile));
 
-        
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IUserService, UserService>();
-
+        services.AddScoped<IHotelService, HotelService>();
     }
 
 }

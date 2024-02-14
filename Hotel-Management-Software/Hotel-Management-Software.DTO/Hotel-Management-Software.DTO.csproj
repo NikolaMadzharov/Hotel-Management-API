@@ -20,8 +20,4 @@
     <PackageReference Include="MimeKit" Version="4.3.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Hotel\" />
-  </ItemGroup>
-
 </Project>
