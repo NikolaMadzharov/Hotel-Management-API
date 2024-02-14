@@ -9,7 +9,7 @@ public class UserToAddDTO
     [Required]
     public string? FirstName { get; set; }
     [Required]
-    public string? MidleName { get; set; }
+    public string? MiddleName { get; set; }
     [Required]
     public string? LastName { get; set; }
 
