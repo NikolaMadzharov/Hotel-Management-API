@@ -1,5 +1,6 @@
 ﻿using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.DTO.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hotel_Management_Software.Controllers
@@ -16,7 +17,7 @@ namespace Hotel_Management_Software.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromForm]UserToAddDTO userToAddDTO)
+        public async Task<IActionResult> Register([FromForm] UserToAddDTO userToAddDTO)
         {
             var result = await _userService.RegisterAsync(userToAddDTO);
 
@@ -28,9 +29,12 @@ namespace Hotel_Management_Software.Controllers
             return BadRequest(new { Success = result });
         }
 
+
+
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromForm] UserLoginDTO userToLoginDTO)
         {
+
             var result = await _userService.LoginAsync(userToLoginDTO);
 
             if (result is not null)
@@ -39,6 +43,9 @@ namespace Hotel_Management_Software.Controllers
             }
 
             return BadRequest(new { Success = result });
+
+
+
         }
     }
 }

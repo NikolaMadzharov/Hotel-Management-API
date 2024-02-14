@@ -15,7 +15,7 @@ public static class DepedencyInjection
     {
         services.AddAutoMapper(typeof(UserProfile));
 
-
+        
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IUserService, UserService>();
 
