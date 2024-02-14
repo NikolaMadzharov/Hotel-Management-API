@@ -1,6 +1,7 @@
 ﻿namespace Hotel_Management_Software.DAL.Entities;
 
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Hotel
 {
@@ -24,4 +25,9 @@ public class Hotel
     public string MobilePhone { get; set; } = null!;
 
     public byte[]? ProfilePicture { get; set; }
+
+    [Required]
+    public string OwnerId { get; set; } = null!;
+    [ForeignKey(nameof(OwnerId))]
+    public virtual ApplicationUser.ApplicationUser Owner { get; set; } = null!;
 }
