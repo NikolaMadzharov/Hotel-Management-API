@@ -7,6 +7,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Hotel_Management_Software.DAL.Entities.ApplicationUser;
 using Hotel_Management_Software.DataAccess.DataContext;
+using Hotel_Management_Software.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,7 +65,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 app.UseCors("CORSPolicy");
 app.UseAuthorization();
