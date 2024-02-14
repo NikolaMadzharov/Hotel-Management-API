@@ -9,5 +9,7 @@ public class HotelProfile : Profile
     public HotelProfile()
     {
         CreateMap<Hotel, HotelToAddDTO>().ReverseMap();
+
+        CreateMap<Hotel, HotelDTO>().ReverseMap();
     }
 }
