@@ -2,14 +2,14 @@
 
 using AutoMapper;
 using Hotel_Management_Software.DAL.Entities;
-using Hotel_Management_Software.DTO.Hotel;
+using Hotel_Management_Software.DTO.Room;
 
 public class RoomProfile : Profile
 {
     public RoomProfile()
     {
-        CreateMap<Hotel, HotelToAddDTO>().ReverseMap();
+        CreateMap<Room, RoomToAddDTO>().ReverseMap();
 
-        CreateMap<Hotel, HotelDTO>().ReverseMap();
+        CreateMap<Room, RoomDTO>().ReverseMap();
     }
 }
