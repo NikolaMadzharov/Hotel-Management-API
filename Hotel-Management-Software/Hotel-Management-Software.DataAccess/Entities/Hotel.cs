@@ -5,6 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Hotel
 {
+    public Hotel()
+    {
+        Rooms = new HashSet<Room>();
+    }
+
     [Key]
     public Guid Id { get; set; }
 
@@ -30,4 +35,6 @@ public class Hotel
     public string OwnerId { get; set; } = null!;
     [ForeignKey(nameof(OwnerId))]
     public virtual ApplicationUser.ApplicationUser Owner { get; set; } = null!;
+
+    public virtual ICollection<Room> Rooms { get; set; }
 }
