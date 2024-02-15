@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class HotelController : Controller
@@ -20,8 +21,7 @@ public class HotelController : Controller
     [HttpPost]
     public async Task<IActionResult> Create([FromForm] HotelToAddDTO hotelToAddDTO)
     {
-        // Temp hardcode for testing. Remove
-        string ownerId = "08bdb28a-47a7-48fd-bb7e-95b02f3724bc"; //User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        string ownerId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
         var hotel = await _hotelService.CreateAsync(ownerId, hotelToAddDTO);
 

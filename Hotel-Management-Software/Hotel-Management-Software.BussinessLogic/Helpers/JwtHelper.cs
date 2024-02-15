@@ -28,7 +28,9 @@ public static class JwtHelper
         }),
             Expires = DateTime.UtcNow.AddHours(1),
             SigningCredentials =
-                new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            Issuer = configuration["Jwt:Issuer"],
+            Audience = configuration["Jwt:Audience"]
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
