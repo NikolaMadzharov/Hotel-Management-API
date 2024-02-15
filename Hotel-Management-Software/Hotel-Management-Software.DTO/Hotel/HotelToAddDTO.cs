@@ -18,8 +18,5 @@ public class HotelToAddDTO
     public string TelephoneNumber { get; set; } = null!;
 
     [Required]
-    public string MobilePhone { get; set; } = null!;
-
-    [Required]
     public IFormFile ProfilePicture { get; set; } = null!;
 }

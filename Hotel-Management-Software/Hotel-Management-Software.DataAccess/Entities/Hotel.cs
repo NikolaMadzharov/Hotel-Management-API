@@ -21,9 +21,6 @@ public class Hotel
     [Required]
     public string TelephoneNumber { get; set; } = null!;
 
-    [Required]
-    public string MobilePhone { get; set; } = null!;
-
     public byte[]? ProfilePicture { get; set; }
 
     [Required]
