@@ -13,6 +13,8 @@ public class ContextDB : IdentityDbContext<ApplicationUser>
 
     public virtual DbSet<Hotel> Hotels { get; set; }
 
+    public virtual DbSet<Room> Rooms { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
