@@ -1,0 +1,31 @@
+﻿namespace Hotel_Management_Software.BBL.Services;
+
+using AutoMapper;
+using Hotel_Management_Software.BBL.Services.IServices;
+using Hotel_Management_Software.DAL.Entities;
+using Hotel_Management_Software.DAL.Repositories.IRepositories;
+using Hotel_Management_Software.DTO.Room;
+using System.Threading.Tasks;
+
+public class RoomService : IRoomService
+{
+    private readonly IMapper _mapper;
+    private readonly IRoomRepository _roomRepository;
+
+    public RoomService(IMapper mapper, IRoomRepository roomRepository)
+    {
+        _mapper = mapper;
+        _roomRepository = roomRepository;
+    }
+
+    public async Task<RoomDTO?> CreateAsync(RoomToAddDTO roomToAddDTO)
+    {
+        var room = _mapper.Map<Room>(roomToAddDTO);
+
+        await _roomRepository.AddAsync(room!);
+
+        var roomDTO = _mapper.Map<RoomDTO>(room);
+
+        return roomDTO;
+    }
+}
