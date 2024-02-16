@@ -1,6 +1,5 @@
 ﻿namespace Hotel_Management_Software.BBL.Services;
 using Hotel_Management_Software.BBL.Services.IServices;
-using Hotel_Management_Software.DAL;
 using Hotel_Management_Software.DAL.Entities.ApplicationUser;
 using MailKit.Net.Smtp;
 using MimeKit;

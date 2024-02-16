@@ -1,4 +1,4 @@
-﻿namespace Hotel_Management_Software.BBL.Services;
+namespace Hotel_Management_Software.BBL.Services;
 
 using AutoMapper;
 using Hotel_Management_Software.BBL.Exceptions;
@@ -44,5 +44,18 @@ public class HotelService : IHotelService
         var hotelDetails = _mapper.Map<HotelDetailsDTO>(hotel);
 
         return hotelDetails;
+    }
+    
+    public async Task<List<HotelAllDTO>> GetAllAsync(string ownerId)
+    {
+        var ownerHotels = await _hotelRepository.GetListAsync(x => x.OwnerId == ownerId);
+
+        
+
+       var hotels =  _mapper.Map<List<HotelAllDTO>>(ownerHotels).ToList();
+
+
+
+        return hotels;
     }
 }
