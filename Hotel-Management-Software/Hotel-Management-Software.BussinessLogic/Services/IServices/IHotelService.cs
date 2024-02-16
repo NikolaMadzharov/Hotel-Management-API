@@ -6,5 +6,5 @@ public interface IHotelService
 {
     Task<HotelDTO?> CreateAsync(string ownerId, HotelToAddDTO hotelToAdd);
 
-    Task<HotelDetailsDTO?> DetailsAsync(Guid hotelId);
+    Task<HotelDetailsDTO?> DetailsAsync(Guid hotelId, string currentUserId);
 }

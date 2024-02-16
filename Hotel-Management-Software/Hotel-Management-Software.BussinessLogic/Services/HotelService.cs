@@ -1,6 +1,7 @@
 ﻿namespace Hotel_Management_Software.BBL.Services;
 
 using AutoMapper;
+using Hotel_Management_Software.BBL.Exceptions;
 using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DAL.Repositories.IRepositories;
@@ -31,10 +32,15 @@ public class HotelService : IHotelService
         return hotelDTO;
     }
 
-    public async Task<HotelDetailsDTO?> DetailsAsync(Guid hotelId)
+    public async Task<HotelDetailsDTO?> DetailsAsync(Guid hotelId, string currentUserId)
     {
-        var hotel = await _hotelRepository.GetAsync(h => h.Id == hotelId);
-        
+        var hotel = await _hotelRepository.GetAsync(h => h.Id == hotelId) ?? throw new CustomException("Not found.", 404);
+
+        if (hotel.OwnerId != currentUserId)
+        {
+            throw new CustomException("Not resource owner.", 403);
+        }
+
         var hotelDetails = _mapper.Map<HotelDetailsDTO>(hotel);
 
         return hotelDetails;
