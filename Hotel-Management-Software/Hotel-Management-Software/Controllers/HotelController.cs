@@ -32,4 +32,19 @@ public class HotelController : Controller
 
         return BadRequest();
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Details(Guid id)
+    {
+        string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+        var hotelDetails = await _hotelService.DetailsAsync(id, userId);
+        
+        if (hotelDetails is not null)
+        {
+            return Ok(hotelDetails);
+        }
+
+        return BadRequest();
+    }
 }
