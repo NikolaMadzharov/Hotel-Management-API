@@ -29,4 +29,17 @@ public class HotelService : IHotelService
 
         return hotelDTO;
     }
+
+    public async Task<List<HotelAllDTO>> GetAllAsync(string ownerId)
+    {
+        var ownerHotels = await _hotelRepository.GetListAsync(x => x.OwnerId == ownerId);
+
+        
+
+       var hotels =  _mapper.Map<List<HotelAllDTO>>(ownerHotels).ToList();
+
+
+
+        return hotels;
+    }
 }

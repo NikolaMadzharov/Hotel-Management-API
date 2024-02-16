@@ -13,5 +13,11 @@ public class HotelProfile : Profile
             .ForMember(dest => dest.ProfilePicture, opt => opt.MapFrom(src => FileHelper.ConvertIFormFileToByteArray(src.ProfilePicture)));
 
         CreateMap<Hotel, HotelDTO>().ReverseMap();
+
+        CreateMap<Hotel, HotelAllDTO>().ReverseMap().
+            ForMember(dest => dest.Email, opt => opt.Ignore())
+            .ForMember(dest => dest.OwnerId, opt => opt.Ignore())
+            .ForMember(dest => dest.TelephoneNumber, opt => opt.Ignore());
+            
     }
 }
