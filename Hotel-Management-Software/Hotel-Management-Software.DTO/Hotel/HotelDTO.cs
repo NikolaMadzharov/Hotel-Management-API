@@ -14,6 +14,4 @@ public class HotelDTO
     public string TelephoneNumber { get; set; } = null!;
 
     public byte[]? ProfilePicture { get; set; }
-
-    public string OwnerId { get; set; } = null!;
 }
