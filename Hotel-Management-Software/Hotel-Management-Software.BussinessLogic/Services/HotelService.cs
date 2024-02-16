@@ -5,6 +5,7 @@ using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DAL.Repositories.IRepositories;
 using Hotel_Management_Software.DTO.Hotel;
+using System;
 using System.Threading.Tasks;
 
 public class HotelService : IHotelService
@@ -28,5 +29,14 @@ public class HotelService : IHotelService
         var hotelDTO = _mapper.Map<HotelDTO?>(hotel);
 
         return hotelDTO;
+    }
+
+    public async Task<HotelDetailsDTO?> DetailsAsync(Guid hotelId)
+    {
+        var hotel = await _hotelRepository.GetAsync(h => h.Id == hotelId);
+        
+        var hotelDetails = _mapper.Map<HotelDetailsDTO>(hotel);
+
+        return hotelDetails;
     }
 }
