@@ -18,16 +18,14 @@ public class HotelService : IHotelService
         _hotelRepository = hotelRepository;
     }
 
-    public async Task<HotelDTO?> CreateAsync(string ownerId, HotelToAddDTO hotelToAdd)
+    public async Task<Guid?> CreateAsync(string ownerId, HotelToAddDTO hotelToAdd)
     {
         var hotel = _mapper.Map<Hotel>(hotelToAdd);
         hotel!.OwnerId = ownerId;
 
         await _hotelRepository.AddAsync(hotel!);
 
-        var hotelDTO = _mapper.Map<HotelDTO?>(hotel);
-
-        return hotelDTO;
+        return hotel.Id;
     }
 
     public async Task<List<HotelAllDTO>> GetAllAsync(string ownerId)

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 public interface IHotelService
 {
-    Task<HotelDTO?> CreateAsync(string ownerId, HotelToAddDTO hotelToAdd);
+    Task<Guid?> CreateAsync(string ownerId, HotelToAddDTO hotelToAdd);
 
     Task<List<HotelAllDTO>> GetAllAsync(string ownerId);
 }
