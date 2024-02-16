@@ -26,7 +26,7 @@ public static class JwtHelper
             new Claim("ProfilePicture", user.ProfilePicture.ToString()),
             new Claim("FullName", $"{user.FirstName} {user.LastName}")
         }),
-            Expires = DateTime.UtcNow.AddHours(1),
+            Expires = DateTime.UtcNow.AddHours(3),
             SigningCredentials =
                 new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Issuer = configuration["Jwt:Issuer"],
