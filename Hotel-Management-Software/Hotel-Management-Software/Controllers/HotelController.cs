@@ -23,11 +23,11 @@ public class HotelController : Controller
     {
         string ownerId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-        var hotel = await _hotelService.CreateAsync(ownerId, hotelToAddDTO);
+        var hotelId = await _hotelService.CreateAsync(ownerId, hotelToAddDTO);
 
-        if (hotel is not null)
+        if (hotelId is not null)
         {
-            return Ok(hotel);
+            return Ok(new { HotelId = hotelId });
         }
 
         return BadRequest();
