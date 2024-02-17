@@ -1,4 +1,4 @@
-﻿namespace Hotel_Management_Software.BBL.Utilities.AutoMapperProfiles;
+namespace Hotel_Management_Software.BBL.Utilities.AutoMapperProfiles;
 
 using AutoMapper;
 using Hotel_Management_Software.BBL.Helpers;
@@ -14,10 +14,11 @@ public class HotelProfile : Profile
 
         CreateMap<Hotel, HotelDTO>().ReverseMap();
 
+        CreateMap<Hotel, HotelDetailsDTO>().ReverseMap();
+        
         CreateMap<Hotel, HotelAllDTO>().ReverseMap().
             ForMember(dest => dest.Email, opt => opt.Ignore())
             .ForMember(dest => dest.OwnerId, opt => opt.Ignore())
             .ForMember(dest => dest.TelephoneNumber, opt => opt.Ignore());
-            
     }
 }
