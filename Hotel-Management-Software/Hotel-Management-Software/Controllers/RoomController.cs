@@ -1,32 +1,46 @@
-﻿namespace Hotel_Management_Software.Controllers;
-
-using Hotel_Management_Software.BBL.Services.IServices;
+﻿using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.DTO.Room;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Authorize]
-[Route("api/[controller]")]
-[ApiController]
-public class RoomController : Controller
+namespace Hotel_Management_Software.Controllers
 {
-    private readonly IRoomService _roomService;
-
-    public RoomController(IRoomService roomService)
+    [Authorize]
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RoomController : Controller
     {
-        _roomService = roomService;
-    }
+        private readonly IRoomService _roomService;
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromForm] RoomToAddDTO roomToAddDTO)
-    {
-        var room = await _roomService.CreateAsync(roomToAddDTO);
-
-        if (room is not null)
+        public RoomController(IRoomService roomService)
         {
-            return Ok(room);
+
+            _roomService = roomService;
         }
 
-        return BadRequest();
+        [HttpPost]
+        public async Task<IActionResult> CreateRoom([FromForm] RoomToAddDTO RoomToAddDTO)
+        {
+            var room =  _roomService.CreateAsync(RoomToAddDTO);
+
+                return Ok();
+            
+          
+        }
+
+        [HttpGet("floor/{floorId}")]
+        public async Task<IActionResult> AllByFloorId(Guid floorId)
+        {
+            var rooms = await _roomService.GetRoomsByFloorId(floorId);
+
+            if (rooms is not null)
+            {
+                return Ok(new { rooms = rooms });
+
+            }
+
+
+            return BadRequest();
+        }
     }
 }
