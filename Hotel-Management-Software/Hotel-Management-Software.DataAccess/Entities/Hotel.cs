@@ -7,7 +7,7 @@ public class Hotel
 {
     public Hotel()
     {
-        Rooms = new HashSet<Room>();
+        Floors = new HashSet<Floor>();
     }
 
     [Key]
@@ -33,5 +33,5 @@ public class Hotel
     [ForeignKey(nameof(OwnerId))]
     public virtual ApplicationUser.ApplicationUser Owner { get; set; } = null!;
 
-    public virtual ICollection<Room> Rooms { get; set; }
+    public virtual ICollection<Floor> Floors { get; set; }
 }

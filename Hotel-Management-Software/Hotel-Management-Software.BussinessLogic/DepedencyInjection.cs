@@ -3,9 +3,10 @@
 using Hotel_Management_Software.BBL.Services;
 using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.BBL.Utilities.AutoMapperProfiles;
-
+using Hotel_Management_Software.DAL.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 public static class DepedencyInjection
 {
@@ -20,6 +21,8 @@ public static class DepedencyInjection
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IHotelService, HotelService>();
         services.AddScoped<IRoomService, RoomService>();
+        services.AddScoped<IFloorService, FloorService>();
+        services.AddScoped<ILogger, Logger<Floor>>();
     }
 }
 

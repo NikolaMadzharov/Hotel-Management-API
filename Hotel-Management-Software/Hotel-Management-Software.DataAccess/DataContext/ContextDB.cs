@@ -15,6 +15,8 @@ public class ContextDB : IdentityDbContext<ApplicationUser>
 
     public virtual DbSet<Room> Rooms { get; set; }
 
+    public virtual DbSet<Floor> Floors { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

@@ -11,12 +11,11 @@ public class Room
     [Required]
     public int RoomNumber { get; set; }
 
-    [Required]
-    public int Floor { get; set; }
+ 
 
     [Required]
-    public Guid HotelId { get; set; }
+    public Guid FloorId { get; set; }
 
-    [ForeignKey(nameof(HotelId))]
-    public virtual Hotel Hotel { get; set; } = null!;
+    [ForeignKey(nameof(FloorId))]
+    public virtual Floor Floor { get; set; } = null!;
 }
