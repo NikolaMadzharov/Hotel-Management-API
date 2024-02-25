@@ -36,7 +36,9 @@ public class RoomService : IRoomService
     {
        var rooms = await _roomRepository.GetListAsync(x => x.FloorId == floorId);
 
-        var roomsDTO = _mapper.Map<List<RoomDTO>>(rooms).ToList();
+        var sortedRooms = rooms.OrderBy(x => x.RoomNumber).ToList(); 
+
+        var roomsDTO = _mapper.Map<List<RoomDTO>>(sortedRooms).ToList();
 
         return roomsDTO;
     }
