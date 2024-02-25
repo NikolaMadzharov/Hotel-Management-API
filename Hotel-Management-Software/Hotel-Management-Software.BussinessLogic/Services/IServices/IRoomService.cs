@@ -4,7 +4,7 @@ using Hotel_Management_Software.DTO.Room;
 
 public interface IRoomService
 {
-    Task CreateAsync(RoomToAddDTO roomToAddDTO);
+    Task<RoomDTO> CreateAsync(RoomToAddDTO roomToAddDTO);
 
     Task<List<RoomDTO>> GetRoomsByFloorId(Guid floorId);
 }

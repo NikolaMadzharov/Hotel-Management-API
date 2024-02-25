@@ -1,11 +1,12 @@
 ﻿using Hotel_Management_Software.BBL.Services.IServices;
+using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DTO.Room;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hotel_Management_Software.Controllers
 {
-    [Authorize]
+   
     [Route("api/[controller]")]
     [ApiController]
     public class RoomController : Controller
@@ -21,9 +22,15 @@ namespace Hotel_Management_Software.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRoom([FromForm] RoomToAddDTO RoomToAddDTO)
         {
-            var room =  _roomService.CreateAsync(RoomToAddDTO);
+            var room =  await _roomService.CreateAsync(RoomToAddDTO);
 
-                return Ok();
+
+            if (room is not null)
+            {
+                return Ok(new { room = room });
+
+            }
+            return BadRequest();
             
           
         }

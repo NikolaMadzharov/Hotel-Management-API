@@ -19,11 +19,15 @@ public class RoomService : IRoomService
         _roomRepository = roomRepository;
     }
 
-    public async Task CreateAsync(RoomToAddDTO roomToAddDTO)
+    public async Task<RoomDTO> CreateAsync(RoomToAddDTO roomToAddDTO)
     {
         var room = _mapper.Map<Room>(roomToAddDTO);
 
         await _roomRepository.AddAsync(room!);
+
+        var roomDTO = _mapper.Map<RoomDTO>(room);
+
+        return roomDTO;
 
       
     }
