@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hotel_Management_Software.DAL.Migrations
 {
     [DbContext(typeof(ContextDB))]
-    [Migration("20240224204536_added_new_entity_Floor_changed_relations")]
-    partial class added_new_entity_Floor_changed_relations
+    [Migration("20240225115957_initial_Set_up")]
+    partial class initial_Set_up
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -176,17 +176,12 @@ namespace Hotel_Management_Software.DAL.Migrations
                     b.Property<Guid>("FloorId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("HotelId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("RoomNumber")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FloorId");
-
-                    b.HasIndex("HotelId");
 
                     b.ToTable("Rooms");
                 });
@@ -353,15 +348,7 @@ namespace Hotel_Management_Software.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Hotel_Management_Software.DAL.Entities.Hotel", "Hotel")
-                        .WithMany()
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Floor");
-
-                    b.Navigation("Hotel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

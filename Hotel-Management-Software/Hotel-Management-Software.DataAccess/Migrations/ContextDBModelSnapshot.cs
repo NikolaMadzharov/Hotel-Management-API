@@ -125,7 +125,7 @@ namespace Hotel_Management_Software.DAL.Migrations
 
                     b.HasIndex("HotelId");
 
-                    b.ToTable("Floors", (string)null);
+                    b.ToTable("Floors");
                 });
 
             modelBuilder.Entity("Hotel_Management_Software.DAL.Entities.Hotel", b =>
@@ -161,7 +161,7 @@ namespace Hotel_Management_Software.DAL.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Hotels", (string)null);
+                    b.ToTable("Hotels");
                 });
 
             modelBuilder.Entity("Hotel_Management_Software.DAL.Entities.Room", b =>
@@ -180,7 +180,7 @@ namespace Hotel_Management_Software.DAL.Migrations
 
                     b.HasIndex("FloorId");
 
-                    b.ToTable("Rooms", (string)null);
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
