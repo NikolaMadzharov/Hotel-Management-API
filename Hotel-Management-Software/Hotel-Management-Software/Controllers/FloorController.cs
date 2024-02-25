@@ -1,6 +1,7 @@
 ﻿namespace Hotel_Management_Software.Controllers;
 
 using Hotel_Management_Software.BBL.Services.IServices;
+using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DTO.Floor;
 using Hotel_Management_Software.DTO.Room;
 using Microsoft.AspNetCore.Authorization;
@@ -23,11 +24,16 @@ public class FloorController : Controller
     [HttpPost]
     public async Task<IActionResult> Create([FromForm] AddFloorDTO addFloorDTO)
     {
-        await  _floorService.CreateAsync(addFloorDTO);
+       var floor =  await  _floorService.CreateAsync(addFloorDTO);
 
-      
-            return Ok();
-       
+
+        if (floor is not null)
+        {
+            return Ok(new { CurrentFloor = floor });
+        }
+
+        return BadRequest();
+
     }
 
     [HttpGet("{HotelId}")]

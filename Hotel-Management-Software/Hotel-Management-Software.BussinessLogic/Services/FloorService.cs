@@ -21,7 +21,7 @@ namespace Hotel_Management_Software.BBL.Services
             _logger = logger;
         }
 
-        public async  Task CreateAsync(AddFloorDTO floorDTO)
+        public async  Task<FloorDTO> CreateAsync(AddFloorDTO floorDTO)
         {
             _logger.LogInformation("Mapping FloorDTO to Floor entity...");
             var floor = _mapper.Map<Floor>(floorDTO);
@@ -36,7 +36,9 @@ namespace Hotel_Management_Software.BBL.Services
                 _logger.LogError("Mapping failed: Floor entity is null.");
             }
 
+            var DTO = _mapper.Map<FloorDTO>(floor);
 
+            return DTO;
 
         }
 
