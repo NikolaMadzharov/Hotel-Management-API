@@ -6,6 +6,7 @@ using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DAL.Repositories.IRepositories;
 using Hotel_Management_Software.DTO.Room;
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 public class RoomService : IRoomService
@@ -30,6 +31,13 @@ public class RoomService : IRoomService
         return roomDTO;
 
       
+    }
+
+    public async   Task<Room> GetRoomByIdAsync(Guid id)
+    {
+        var room = await _roomRepository.GetAsync(x => x.Id == id);
+
+        return room;
     }
 
     public async Task<List<RoomDTO>> GetRoomsByFloorId(Guid floorId)

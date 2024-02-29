@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Hotel_Management_Software.Controllers
 {
-   
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class RoomController : Controller
@@ -43,6 +43,21 @@ namespace Hotel_Management_Software.Controllers
             if (rooms is not null)
             {
                 return Ok(new { rooms = rooms });
+
+            }
+
+
+            return BadRequest();
+        }
+
+        [HttpGet("{roomId}")]
+        public async Task<IActionResult> GetRoomById(Guid roomId)
+        {
+            var room = await _roomService.GetRoomByIdAsync(roomId);
+
+            if (room is not null)
+            {
+                return Ok(new { room = room });
 
             }
 
