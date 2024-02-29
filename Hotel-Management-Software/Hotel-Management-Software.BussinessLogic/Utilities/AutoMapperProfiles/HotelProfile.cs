@@ -10,7 +10,7 @@ public class HotelProfile : Profile
     public HotelProfile()
     {
         CreateMap<Hotel, HotelToAddDTO>().ReverseMap()
-            .ForMember(dest => dest.ProfilePicture, opt => opt.MapFrom(src => FileHelper.ConvertIFormFileToByteArray(src.ProfilePicture)));
+            .ForMember(dest => dest.Image, opt => opt.Ignore());
 
         CreateMap<Hotel, HotelDTO>().ReverseMap();
 

@@ -11,7 +11,7 @@ public class UserProfile : Profile
     public UserProfile()
     {
         CreateMap<ApplicationUser, UserToAddDTO>().ReverseMap().ForMember(destination => destination.UserName, opt => opt.MapFrom(src => RandomGenerator.Generate().ToString()))
-            .ForMember(dest => dest.ProfilePicture, opt => opt.MapFrom(src => FileHelper.ConvertIFormFileToByteArray(src.ProfilePicture)));
+            .ForMember(dest => dest.Image, opt => opt.Ignore());
 
 
     }
