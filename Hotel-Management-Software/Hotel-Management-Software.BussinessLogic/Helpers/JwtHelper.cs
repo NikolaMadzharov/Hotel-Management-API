@@ -23,7 +23,7 @@ public static class JwtHelper
             Subject = new ClaimsIdentity(new[]
             {
             new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim("ProfilePicture", user.ProfilePicture.ToString()),
+            new Claim("ProfilePicture", user.Image.URL),
             new Claim("FullName", $"{user.FirstName} {user.LastName}")
         }),
             Expires = DateTime.UtcNow.AddHours(3),
