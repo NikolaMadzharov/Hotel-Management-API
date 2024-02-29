@@ -2,6 +2,8 @@
 
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class ApplicationUser : IdentityUser
 {
@@ -20,7 +22,10 @@ public class ApplicationUser : IdentityUser
 
     public string Address { get; set; } = null!;
 
-    public byte[] ProfilePicture { get; set; } = null!;
+    [Required]
+    public Guid ImageId { get; set; }
+    [ForeignKey(nameof(ImageId))]
+    public virtual Image Image { get; set; } = null!;
 
     [DefaultValue(true)]
     public bool IsActive { get; set; }
