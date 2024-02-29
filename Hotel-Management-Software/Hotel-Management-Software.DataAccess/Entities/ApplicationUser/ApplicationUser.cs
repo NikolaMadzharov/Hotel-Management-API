@@ -22,10 +22,9 @@ public class ApplicationUser : IdentityUser
 
     public string Address { get; set; } = null!;
 
-    [Required]
-    public Guid ImageId { get; set; }
+    public Guid? ImageId { get; set; }
     [ForeignKey(nameof(ImageId))]
-    public virtual Image Image { get; set; } = null!;
+    public virtual Image? Image { get; set; }
 
     [DefaultValue(true)]
     public bool IsActive { get; set; }
