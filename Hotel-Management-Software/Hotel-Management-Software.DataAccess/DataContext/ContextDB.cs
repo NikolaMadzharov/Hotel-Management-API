@@ -17,6 +17,8 @@ public class ContextDB : IdentityDbContext<ApplicationUser>
 
     public virtual DbSet<Floor> Floors { get; set; }
 
+    public virtual DbSet<RoomExtra> RoomExtras { get; set; }
+
     public virtual DbSet<Image> Images { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)

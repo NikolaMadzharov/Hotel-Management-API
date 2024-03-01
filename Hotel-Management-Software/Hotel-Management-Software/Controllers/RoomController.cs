@@ -1,12 +1,11 @@
 ﻿using Hotel_Management_Software.BBL.Services.IServices;
-using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DTO.Room;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hotel_Management_Software.Controllers
 {
-   
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class RoomController : Controller
@@ -22,7 +21,7 @@ namespace Hotel_Management_Software.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRoom([FromForm] RoomToAddDTO RoomToAddDTO)
         {
-            var room =  await _roomService.CreateAsync(RoomToAddDTO);
+            var room = await _roomService.CreateAsync(RoomToAddDTO);
 
 
             if (room is not null)
@@ -31,8 +30,8 @@ namespace Hotel_Management_Software.Controllers
 
             }
             return BadRequest();
-            
-          
+
+
         }
 
         [HttpGet("floor/{floorId}")]
@@ -47,6 +46,35 @@ namespace Hotel_Management_Software.Controllers
             }
 
 
+            return BadRequest();
+        }
+        [HttpGet("{roomId}")]
+        public async Task<IActionResult> GetRoomById(Guid roomId)
+        {
+            var room = await _roomService.GetRoomByIdAsync(roomId);
+
+            if (room is not null)
+            {
+                return Ok(new { room = room });
+
+
+            }
+
+
+            return BadRequest();
+        }
+
+        [HttpPost("AddExtra")]
+        public async Task<IActionResult> AddExtraa([FromForm] RoomExtraToAddDTO roomExtraToAddDTO)
+        {
+            var roomExtra = await _roomService.AddRoomExtraAsync(roomExtraToAddDTO);
+
+            if (roomExtra is not null)
+            {
+                return Ok(new { roomExtra });
+
+
+            }
             return BadRequest();
         }
     }
