@@ -15,7 +15,7 @@ public class Floor
     [Required]
     public int FloorNumber { get; set; }
 
-    public ICollection<Room>? Rooms { get; set; }
+    public virtual ICollection<Room>? Rooms { get; set; }
 
    
     public virtual Guid  HotelId { get; set; } 

@@ -14,7 +14,8 @@ public static class DependecyInjection
     {
         services.AddDbContext<ContextDB>(options =>
         {
-            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
+            .UseLazyLoadingProxies();
         });
 
         services.AddScoped<IUserRepository, UserRepository>();
