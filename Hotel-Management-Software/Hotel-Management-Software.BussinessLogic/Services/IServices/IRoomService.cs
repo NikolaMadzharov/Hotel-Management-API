@@ -1,5 +1,6 @@
 ﻿namespace Hotel_Management_Software.BBL.Services.IServices;
 
+using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DTO.Room;
 
 public interface IRoomService
@@ -8,5 +9,9 @@ public interface IRoomService
 
     Task<List<RoomDTO>> GetRoomsByFloorId(Guid floorId);
 
+
     Task<RoomExtraToAddDTO> AddRoomExtraAsync(RoomExtraToAddDTO roomExtraToAddDTO);
+
+    Task<Room> GetRoomByIdAsync(Guid id);
+
 }

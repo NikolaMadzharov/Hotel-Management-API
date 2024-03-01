@@ -49,6 +49,7 @@ namespace Hotel_Management_Software.Controllers
             return BadRequest();
         }
 
+
         [HttpPost("AddExtra")]
         public async Task<IActionResult> AddExtraa([FromForm] RoomExtraToAddDTO roomExtraToAddDTO)
         {
@@ -57,6 +58,16 @@ namespace Hotel_Management_Software.Controllers
             if (roomExtra is not null)
             {
                 return Ok(new { roomExtra });
+
+        [HttpGet("{roomId}")]
+        public async Task<IActionResult> GetRoomById(Guid roomId)
+        {
+            var room = await _roomService.GetRoomByIdAsync(roomId);
+
+            if (room is not null)
+            {
+                return Ok(new { room = room });
+
 
             }
 
