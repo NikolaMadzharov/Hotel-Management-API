@@ -4,20 +4,26 @@ using AutoMapper;
 using Hotel_Management_Software.BBL.Exceptions;
 using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.DAL.Entities;
+using Hotel_Management_Software.DAL.Repositories;
 using Hotel_Management_Software.DAL.Repositories.IRepositories;
 using Hotel_Management_Software.DTO.Hotel;
+using Hotel_Management_Software.DTO.User;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 public class HotelService : IHotelService
 {
     private readonly IMapper _mapper;
     private readonly IHotelRepository _hotelRepository;
+    private readonly IFileStorageService _storageService;
 
-    public HotelService(IMapper mapper, IHotelRepository hotelRepository)
+
+    public HotelService(IMapper mapper, IHotelRepository hotelRepository, IFileStorageService storageService)
     {
         _mapper = mapper;
         _hotelRepository = hotelRepository;
+        _storageService = storageService;
     }
 
     public async Task<Guid?> CreateAsync(string ownerId, HotelToAddDTO hotelToAdd)
@@ -26,6 +32,16 @@ public class HotelService : IHotelService
         hotel!.OwnerId = ownerId;
 
         await _hotelRepository.AddAsync(hotel!);
+
+        var imageUploadResult = await _storageService.UploadAsync(hotelToAdd.ProfilePicture, $"Hotels/{hotel.Id}/{Guid.NewGuid()}");
+
+        if (imageUploadResult.StatusCode == HttpStatusCode.OK)
+        {
+            var image = _mapper.Map<Image>(imageUploadResult);
+            hotel.Image = image!;
+
+            _ = _hotelRepository.UpdateAsync(hotel);
+        }
 
         return hotel.Id;
     }
