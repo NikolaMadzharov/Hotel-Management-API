@@ -1,5 +1,4 @@
 ﻿using Hotel_Management_Software.BBL.Services.IServices;
-using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DTO.Room;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -50,6 +49,16 @@ namespace Hotel_Management_Software.Controllers
             return BadRequest();
         }
 
+
+        [HttpPost("AddExtra")]
+        public async Task<IActionResult> AddExtraa([FromForm] RoomExtraToAddDTO roomExtraToAddDTO)
+        {
+            var roomExtra = await _roomService.AddRoomExtraAsync(roomExtraToAddDTO);
+
+            if (roomExtra is not null)
+            {
+                return Ok(new { roomExtra });
+
         [HttpGet("{roomId}")]
         public async Task<IActionResult> GetRoomById(Guid roomId)
         {
@@ -58,6 +67,7 @@ namespace Hotel_Management_Software.Controllers
             if (room is not null)
             {
                 return Ok(new { room = room });
+
 
             }
 

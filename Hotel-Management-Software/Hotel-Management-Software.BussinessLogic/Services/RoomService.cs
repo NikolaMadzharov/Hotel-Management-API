@@ -13,11 +13,24 @@ public class RoomService : IRoomService
 {
     private readonly IMapper _mapper;
     private readonly IRoomRepository _roomRepository;
+    private readonly IRoomExtraRepository _roomExtraRepository;
 
-    public RoomService(IMapper mapper, IRoomRepository roomRepository)
+    public RoomService(IMapper mapper, IRoomRepository roomRepository, IRoomExtraRepository roomExtraRepository)
     {
         _mapper = mapper;
         _roomRepository = roomRepository;
+        _roomExtraRepository = roomExtraRepository;
+    }
+
+    public async Task<RoomExtraToAddDTO> AddRoomExtraAsync(RoomExtraToAddDTO roomExtraToAddDTO)
+    {
+        var roomExtra = _mapper.Map<RoomExtra>(roomExtraToAddDTO);
+
+        await _roomExtraRepository.AddAsync(roomExtra!);
+
+        var roomExtraDTO = _mapper.Map<RoomExtraToAddDTO>(roomExtra);
+
+        return roomExtraDTO;
     }
 
     public async Task<RoomDTO> CreateAsync(RoomToAddDTO roomToAddDTO)
