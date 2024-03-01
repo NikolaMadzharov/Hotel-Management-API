@@ -11,5 +11,7 @@ public class RoomProfile : Profile
         CreateMap<Room, RoomToAddDTO>().ReverseMap();
 
         CreateMap<Room, RoomDTO>().ReverseMap();
+
+        CreateMap<RoomExtra, RoomExtraToAddDTO>().ReverseMap();
     }
 }
