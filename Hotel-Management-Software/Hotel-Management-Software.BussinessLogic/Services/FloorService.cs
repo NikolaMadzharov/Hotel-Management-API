@@ -1,7 +1,6 @@
 ﻿namespace Hotel_Management_Software.BBL.Services;
 
 using AutoMapper;
-using Hotel_Management_Software.BBL.Exceptions;
 using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DAL.Repositories.IRepositories;
@@ -65,7 +64,7 @@ public class FloorService : IFloorService
         {
             _logger.LogInformation("Floor with Id: {floorId} not found." , floorId);
             
-            throw new CustomException("Not found.", 404);
+            throw new KeyNotFoundException();
         }
 
         await _floorRepository.DeleteAsync(floor);
