@@ -34,6 +34,13 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         return await _dbContext.SaveChangesAsync();
     }
 
+    public async Task<bool> ExistAsync(Expression<Func<TEntity, bool>> filter = null, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Set<TEntity>().AsNoTracking().AnyAsync(filter, cancellationToken);
+
+
+    }
+
     public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter = null, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(filter, cancellationToken);

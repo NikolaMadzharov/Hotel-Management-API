@@ -31,11 +31,17 @@ public class RoomService : IRoomService
             var extraMap = _mapper.Map<RoomExtra>(extra);
 
 
-            await _roomExtraRepository.AddAsync(extraMap);
+            if (!await _roomExtraRepository.ExistAsync(x => x.Name == extra.Name))
+            {
+                await _roomExtraRepository.AddAsync(extraMap);
 
 
-            var addedExtraDTO = _mapper.Map<RoomExtraDTO>(extraMap);
-            addedRoomExtrasDTO.Add(addedExtraDTO);
+                var addedExtraDTO = _mapper.Map<RoomExtraDTO>(extraMap);
+                addedRoomExtrasDTO.Add(addedExtraDTO);
+            }
+
+            continue;
+       
         }
 
         return addedRoomExtrasDTO;

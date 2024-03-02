@@ -11,4 +11,8 @@ public interface IGenericRepository<T> where T : class, new()
     Task<int> DeleteAsync(T entity);
     Task<List<T>> AddRangeAsync(List<T> entity);
     Task<List<T>> UpdateRangeAsync(List<T> entity);
+
+    Task<bool> ExistAsync(Expression<Func<T, bool>> filter = null, CancellationToken cancellationToken = default);
+
+
 }
