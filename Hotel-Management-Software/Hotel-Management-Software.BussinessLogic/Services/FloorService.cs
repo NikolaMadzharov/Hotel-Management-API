@@ -57,8 +57,18 @@ public class FloorService : IFloorService
 
     public async Task DeleteAsync(Guid floorId)
     {
-        var floor = await _floorRepository.GetAsync(f => f.Id == floorId) ?? throw new CustomException("Not found.", 404);
+        _logger.LogInformation("Deleting floor with Id: {floorId} ...", floorId);
+
+        var floor = await _floorRepository.GetAsync(f => f.Id == floorId);
+
+        if (floor is null)
+        {
+            _logger.LogInformation("Floor with Id: {floorId} not found." , floorId);
+            
+            throw new CustomException("Not found.", 404);
+        }
 
         await _floorRepository.DeleteAsync(floor);
+        _logger.LogInformation("Floor with Id: {floorId} has been deleted.", floorId);
     }
 }
