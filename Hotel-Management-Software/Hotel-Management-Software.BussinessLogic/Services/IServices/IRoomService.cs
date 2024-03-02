@@ -12,6 +12,6 @@ public interface IRoomService
 
     Task<List<RoomExtraDTO>> AddRoomExtraAsync(List<RoomExtraToAddDTO> roomExtraToAddDTO);
 
-    Task<Room> GetRoomByIdAsync(Guid id);
+    Task<RoomDTO> GetRoomByIdAsync(Guid id);
 
 }

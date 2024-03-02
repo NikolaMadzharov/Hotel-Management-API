@@ -6,5 +6,5 @@ public class RoomDTO
 
     public int RoomNumber { get; set; }
 
-   
+    public virtual ICollection<RoomExtraDTO> RoomExtras { get; set; } 
 }

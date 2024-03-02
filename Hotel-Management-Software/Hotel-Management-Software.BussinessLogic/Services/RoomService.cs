@@ -60,11 +60,13 @@ public class RoomService : IRoomService
       
     }
 
-    public async   Task<Room> GetRoomByIdAsync(Guid id)
+    public async Task<RoomDTO> GetRoomByIdAsync(Guid id)
     {
         var room = await _roomRepository.GetAsync(x => x.Id == id);
 
-        return room;
+        var roomDTO = _mapper.Map<RoomDTO>(room);
+
+        return roomDTO;
     }
 
     public async Task<List<RoomDTO>> GetRoomsByFloorId(Guid floorId)
