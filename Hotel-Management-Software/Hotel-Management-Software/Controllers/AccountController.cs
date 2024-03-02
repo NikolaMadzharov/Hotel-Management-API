@@ -1,6 +1,5 @@
 ﻿using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.DTO.User;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hotel_Management_Software.Controllers
