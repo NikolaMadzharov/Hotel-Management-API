@@ -10,5 +10,5 @@ public class HotelDetailsDTO
 
     public string TelephoneNumber { get; set; } = null!;
 
-    public byte[]? ProfilePicture { get; set; }
+    public string? ProfilePicture { get; set; }
 }

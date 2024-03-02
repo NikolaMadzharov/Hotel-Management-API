@@ -4,11 +4,13 @@ using AutoMapper;
 using Hotel_Management_Software.BBL.Exceptions;
 using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.BussinessLogic.Helpers;
+using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DAL.Entities.ApplicationUser;
 using Hotel_Management_Software.DAL.Repositories.IRepositories;
 using Hotel_Management_Software.DTO.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using System.Net;
 
 public class UserService : IUserService
 {
@@ -18,13 +20,15 @@ public class UserService : IUserService
     private readonly IMapper _mapper;
     private readonly IUserRepository _userRepository;
     private readonly IConfiguration _configuration;
+    private readonly IFileStorageService _storageService;
 
     public UserService(IEmailService emailService, 
         SignInManager<ApplicationUser> signInManager, 
         UserManager<ApplicationUser> userManager, 
         IMapper mapper, 
         IUserRepository userRepository,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IFileStorageService storageService)
     {
         _emailService = emailService;
         _signInManager = signInManager;
@@ -32,6 +36,7 @@ public class UserService : IUserService
         _mapper = mapper;
         _userRepository = userRepository;
         _configuration = configuration;
+        _storageService = storageService;
     }
 
     public async Task<string> LoginAsync(UserLoginDTO userToLoginDTO)
@@ -56,23 +61,26 @@ public class UserService : IUserService
 
     public async Task<bool> RegisterAsync(UserToAddDTO userToAddDTO)
     {
-       
-
         var user = _mapper.Map<ApplicationUser>(userToAddDTO);
 
         var result =  await _userManager.CreateAsync(user, userToAddDTO.Password); 
 
         if (result.Succeeded)
         {
+            var imageUploadResult = await _storageService.UploadAsync(userToAddDTO.ProfilePicture, $"ProfilePictures/{Guid.NewGuid()}");
+
+            if (imageUploadResult.StatusCode == HttpStatusCode.OK)
+            {
+                var image = _mapper.Map<Image>(imageUploadResult);
+                user.Image = image!;
+                _ = await _userRepository.UpdateAsync(user);
+            }
+
             await _emailService.SendLoginCodeAsync(user);
             return true;
         }
 
 
         return false;
-
-         
-        
-
     }
 }

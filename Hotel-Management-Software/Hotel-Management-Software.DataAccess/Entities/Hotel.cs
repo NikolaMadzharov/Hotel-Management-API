@@ -26,7 +26,9 @@ public class Hotel
     [Required]
     public string TelephoneNumber { get; set; } = null!;
 
-    public byte[]? ProfilePicture { get; set; }
+    public Guid? ImageId { get; set; }
+    [ForeignKey(nameof(ImageId))]
+    public virtual Image? Image { get; set; }
 
     [Required]
     public string OwnerId { get; set; } = null!;

@@ -16,12 +16,15 @@ public static class DepedencyInjection
         services.AddAutoMapper(typeof(UserProfile));
         services.AddAutoMapper(typeof(HotelProfile));
         services.AddAutoMapper(typeof(RoomProfile));
+        services.AddAutoMapper(typeof(ImageProfile));
 
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IHotelService, HotelService>();
         services.AddScoped<IRoomService, RoomService>();
         services.AddScoped<IFloorService, FloorService>();
+        services.AddScoped<IFileStorageService, CloudinaryService>();
+
         services.AddScoped<ILogger, Logger<Floor>>();
     }
 }

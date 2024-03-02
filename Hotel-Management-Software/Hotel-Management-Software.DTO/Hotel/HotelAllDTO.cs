@@ -6,7 +6,7 @@ public class HotelAllDTO
 
     public string Name { get; set; } = null!;
 
-    public byte[]? ProfilePicture { get; set; } = null!;
+    public string? ProfilePicture { get; set; } = null!;
 
     public string Address { get; set; } = null!;
 }
