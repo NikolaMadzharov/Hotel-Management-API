@@ -29,5 +29,5 @@ public class Room
     [ForeignKey(nameof(FloorId))]
     public virtual Floor Floor { get; set; } = null!;
 
-    public ICollection<RoomExtra> RoomExtras { get; set; }
+    public virtual ICollection<RoomExtra> RoomExtras { get; set; }
 }
