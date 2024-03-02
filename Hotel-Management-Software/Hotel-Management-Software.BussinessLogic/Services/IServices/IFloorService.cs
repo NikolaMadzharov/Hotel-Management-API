@@ -1,12 +1,12 @@
-﻿using Hotel_Management_Software.DAL.Entities;
+﻿namespace Hotel_Management_Software.BBL.Services.IServices;
+
 using Hotel_Management_Software.DTO.Floor;
 
-namespace Hotel_Management_Software.BBL.Services.IServices
+public interface IFloorService
 {
-    public interface IFloorService
-    {
-        Task<FloorDTO> CreateAsync(AddFloorDTO floorDTO);
+    Task<FloorDTO> CreateAsync(AddFloorDTO floorDTO);
 
-        Task<List<FloorDTO>> GetFloorsByHotelIdAsync(Guid hotelId);
-    }
+    Task<List<FloorDTO>> GetFloorsByHotelIdAsync(Guid hotelId);
+
+    Task DeleteAsync(Guid floorId);
 }
