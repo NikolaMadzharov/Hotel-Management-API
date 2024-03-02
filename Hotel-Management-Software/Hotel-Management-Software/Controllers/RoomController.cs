@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Hotel_Management_Software.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class RoomController : Controller
@@ -65,7 +65,7 @@ namespace Hotel_Management_Software.Controllers
         }
 
         [HttpPost("AddExtra")]
-        public async Task<IActionResult> AddExtraa([FromForm] RoomExtraToAddDTO roomExtraToAddDTO)
+        public async Task<IActionResult> AddExtraa(List<RoomExtraToAddDTO> roomExtraToAddDTO)
         {
             var roomExtra = await _roomService.AddRoomExtraAsync(roomExtraToAddDTO);
 

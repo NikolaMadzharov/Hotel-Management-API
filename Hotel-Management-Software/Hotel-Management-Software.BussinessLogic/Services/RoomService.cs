@@ -22,15 +22,23 @@ public class RoomService : IRoomService
         _roomExtraRepository = roomExtraRepository;
     }
 
-    public async Task<RoomExtraToAddDTO> AddRoomExtraAsync(RoomExtraToAddDTO roomExtraToAddDTO)
+    public async Task<List<RoomExtraDTO>> AddRoomExtraAsync(List<RoomExtraToAddDTO> roomExtrasToAddDTO)
     {
-        var roomExtra = _mapper.Map<RoomExtra>(roomExtraToAddDTO);
+        var addedRoomExtrasDTO = new List<RoomExtraDTO>();
 
-        await _roomExtraRepository.AddAsync(roomExtra!);
+        foreach (var extra in roomExtrasToAddDTO)
+        {
+            var extraMap = _mapper.Map<RoomExtra>(extra);
 
-        var roomExtraDTO = _mapper.Map<RoomExtraToAddDTO>(roomExtra);
 
-        return roomExtraDTO;
+            await _roomExtraRepository.AddAsync(extraMap);
+
+
+            var addedExtraDTO = _mapper.Map<RoomExtraDTO>(extraMap);
+            addedRoomExtrasDTO.Add(addedExtraDTO);
+        }
+
+        return addedRoomExtrasDTO;
     }
 
     public async Task<RoomDTO> CreateAsync(RoomToAddDTO roomToAddDTO)
