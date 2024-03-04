@@ -6,7 +6,6 @@ using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DAL.Repositories.IRepositories;
 using Hotel_Management_Software.DTO.Room;
 using System;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 public class RoomService : IRoomService
@@ -26,7 +25,7 @@ public class RoomService : IRoomService
     {
         var addedRoomExtrasDTO = new List<RoomExtraDTO>();
 
-        var room =  await _roomRepository.GetAsync(x => x.Id == roomExtrasToAddDTO[0].RoomId);
+        var room = await _roomRepository.GetAsync(x => x.Id == roomExtrasToAddDTO[0].RoomId);
 
         foreach (var extra in roomExtrasToAddDTO)
         {
@@ -43,7 +42,7 @@ public class RoomService : IRoomService
             }
 
             continue;
-       
+
         }
 
         return addedRoomExtrasDTO;
@@ -59,7 +58,7 @@ public class RoomService : IRoomService
 
         return roomDTO;
 
-      
+
     }
 
     public async Task<RoomDTO> GetRoomByIdAsync(Guid id)
@@ -73,12 +72,19 @@ public class RoomService : IRoomService
 
     public async Task<List<RoomDTO>> GetRoomsByFloorId(Guid floorId)
     {
-       var rooms = await _roomRepository.GetListAsync(x => x.FloorId == floorId);
+        var rooms = await _roomRepository.GetListAsync(x => x.FloorId == floorId);
 
-        var sortedRooms = rooms.OrderBy(x => x.RoomNumber).ToList(); 
+        var sortedRooms = rooms.OrderBy(x => x.RoomNumber).ToList();
 
         var roomsDTO = _mapper.Map<List<RoomDTO>>(sortedRooms).ToList();
 
         return roomsDTO;
+    }
+
+    public async Task RemoveRoomExtra(Guid id)
+    {
+        var roomExtra = await _roomExtraRepository.GetAsync(e => e.Id == id) ?? throw new KeyNotFoundException();
+
+        await _roomExtraRepository.DeleteAsync(roomExtra);
     }
 }
