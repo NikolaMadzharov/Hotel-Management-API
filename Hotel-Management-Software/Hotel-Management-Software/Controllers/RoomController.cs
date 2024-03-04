@@ -77,5 +77,13 @@ namespace Hotel_Management_Software.Controllers
             }
             return BadRequest();
         }
+
+        [HttpDelete("extra/{id}")]
+        public async Task<IActionResult> DeleteExtra(Guid id)
+        {
+            await _roomService.RemoveRoomExtra(id);
+
+            return NoContent();
+        }
     }
 }
