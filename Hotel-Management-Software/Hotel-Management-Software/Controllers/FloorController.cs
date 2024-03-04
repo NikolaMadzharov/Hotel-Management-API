@@ -24,7 +24,7 @@ public class FloorController : Controller
     [HttpPost]
     public async Task<IActionResult> Create([FromForm] AddFloorDTO addFloorDTO)
     {
-       var floor =  await  _floorService.CreateAsync(addFloorDTO);
+        var floor = await _floorService.CreateAsync(addFloorDTO);
 
 
         if (floor is not null)
@@ -43,11 +43,17 @@ public class FloorController : Controller
 
         if (floor is not null)
         {
-            return Ok(new {floors =  floor});
+            return Ok(new { floors = floor });
         }
 
         return BadRequest();
     }
 
+    [HttpDelete("{Id}")]
+    public async Task<IActionResult> Delete(Guid Id)
+    {
+        await _floorService.DeleteAsync(Id);
 
+        return NoContent();
+    }
 }
