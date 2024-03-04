@@ -65,7 +65,7 @@ namespace Hotel_Management_Software.Controllers
         }
 
         [HttpPost("AddExtra")]
-        public async Task<IActionResult> AddExtraa(List<RoomExtraToAddDTO> roomExtraToAddDTO)
+        public async Task<IActionResult> AddExtra(List<RoomExtraToAddDTO> roomExtraToAddDTO)
         {
             var roomExtra = await _roomService.AddRoomExtraAsync(roomExtraToAddDTO);
 
