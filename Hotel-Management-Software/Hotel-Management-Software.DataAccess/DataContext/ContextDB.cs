@@ -21,6 +21,10 @@ public class ContextDB : IdentityDbContext<ApplicationUser>
 
     public virtual DbSet<Image> Images { get; set; }
 
+    public virtual DbSet<Guest> Guests { get; set; }
+
+    public virtual DbSet<Reservation> Reservations { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
