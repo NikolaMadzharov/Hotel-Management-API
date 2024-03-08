@@ -10,6 +10,7 @@ public class Room
     public Room()
     {
         RoomExtras = new HashSet<RoomExtra>();
+        Reservations = new HashSet<Reservation>();
     }
 
     [Key]
@@ -30,4 +31,6 @@ public class Room
     public virtual Floor Floor { get; set; } = null!;
 
     public virtual ICollection<RoomExtra> RoomExtras { get; set; }
+
+    public virtual ICollection<Reservation> Reservations { get; set; }
 }
