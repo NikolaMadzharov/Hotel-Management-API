@@ -8,5 +8,5 @@ public class RoomToAddDTO
     [Range(minimum: 1, maximum: 9999)]
     public int RoomNumber { get; set; }
 
-    public Guid FLoorId { get; set; }
+    public Guid FloorId { get; set; }
 }

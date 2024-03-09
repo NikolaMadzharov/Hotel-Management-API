@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Hotel_Management_Software.DTO.Room;
+﻿namespace Hotel_Management_Software.DTO.Room;
 
 public class RoomExtraDTO
 {
