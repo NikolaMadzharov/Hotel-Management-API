@@ -56,6 +56,19 @@ public class RoomController : Controller
         return BadRequest();
     }
 
+    [HttpPut]
+    public async Task<IActionResult> Edit([FromForm] EditRoomDTO editRoomDTO)
+    {
+        var room = await _roomService.EditAsync(editRoomDTO);
+
+        if (room is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(new { room });
+    }
+
     [HttpPost("AddExtra")]
     public async Task<IActionResult> AddExtra(List<RoomExtraToAddDTO> roomExtraToAddDTO)
     {
