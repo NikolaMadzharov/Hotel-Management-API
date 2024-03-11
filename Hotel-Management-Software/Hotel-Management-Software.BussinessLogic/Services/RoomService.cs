@@ -14,19 +14,21 @@ public class RoomService : IRoomService
     private readonly IMapper _mapper;
     private readonly IRoomRepository _roomRepository;
     private readonly IRoomExtraRepository _roomExtraRepository;
+    private readonly IFloorRepository _floorRepository;
 
-    public RoomService(IMapper mapper, IRoomRepository roomRepository, IRoomExtraRepository roomExtraRepository)
+    public RoomService(IMapper mapper, IRoomRepository roomRepository, IRoomExtraRepository roomExtraRepository, IFloorRepository floorRepository)
     {
         _mapper = mapper;
         _roomRepository = roomRepository;
         _roomExtraRepository = roomExtraRepository;
+        _floorRepository = floorRepository;
     }
 
     public async Task<List<RoomExtraDTO>> AddRoomExtraAsync(List<RoomExtraToAddDTO> roomExtrasToAddDTO)
     {
         var addedRoomExtrasDTO = new List<RoomExtraDTO>();
 
-        var room =  await _roomRepository.GetAsync(x => x.Id == roomExtrasToAddDTO[0].RoomId);
+        var room = await _roomRepository.GetAsync(x => x.Id == roomExtrasToAddDTO[0].RoomId);
         room.RoomExtras.Clear();
 
         foreach (var extra in roomExtrasToAddDTO)
@@ -34,18 +36,18 @@ public class RoomService : IRoomService
             var extraMap = _mapper.Map<RoomExtra>(extra);
 
 
-                   
-               
-
-                await _roomExtraRepository.AddAsync(extraMap);
 
 
-                var addedExtraDTO = _mapper.Map<RoomExtraDTO>(extraMap);
-                addedRoomExtrasDTO.Add(addedExtraDTO);
-            
 
-            
-       
+            await _roomExtraRepository.AddAsync(extraMap);
+
+
+            var addedExtraDTO = _mapper.Map<RoomExtraDTO>(extraMap);
+            addedRoomExtrasDTO.Add(addedExtraDTO);
+
+
+
+
         }
 
         return addedRoomExtrasDTO;
@@ -61,7 +63,26 @@ public class RoomService : IRoomService
 
         return roomDTO;
 
-      
+
+    }
+
+    public async Task<RoomDTO?> EditAsync(EditRoomDTO editRoomDTO)
+    {
+        var roomExists = await _roomRepository.ExistAsync(r => r.Id == editRoomDTO.Id);
+        var floorExists = await _floorRepository.ExistAsync(f => f.Id == editRoomDTO.FloorId);
+
+        if (!roomExists || !floorExists)
+        {
+            throw new KeyNotFoundException();
+        }
+
+        var room = _mapper.Map<Room>(editRoomDTO);
+
+        _ = await _roomRepository.UpdateAsync(room!);
+
+        var roomDto = _mapper.Map<RoomDTO>(room);
+
+        return roomDto;
     }
 
     public async Task<RoomDTO> GetRoomByIdAsync(Guid id)
@@ -75,9 +96,9 @@ public class RoomService : IRoomService
 
     public async Task<List<RoomDTO>> GetRoomsByFloorId(Guid floorId)
     {
-       var rooms = await _roomRepository.GetListAsync(x => x.FloorId == floorId);
+        var rooms = await _roomRepository.GetListAsync(x => x.FloorId == floorId);
 
-        var sortedRooms = rooms.OrderBy(x => x.RoomNumber).ToList(); 
+        var sortedRooms = rooms.OrderBy(x => x.RoomNumber).ToList();
 
         var roomsDTO = _mapper.Map<List<RoomDTO>>(sortedRooms).ToList();
 

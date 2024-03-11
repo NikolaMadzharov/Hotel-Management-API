@@ -14,4 +14,5 @@ public interface IRoomService
 
     Task<RoomDTO> GetRoomByIdAsync(Guid id);
 
+    Task<RoomDTO?> EditAsync(EditRoomDTO editRoomDTO);
 }
