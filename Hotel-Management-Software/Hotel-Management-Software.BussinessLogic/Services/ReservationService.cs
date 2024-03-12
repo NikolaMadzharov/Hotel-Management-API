@@ -1,5 +1,4 @@
-﻿using aspnetcore.ntier.DAL.Repositories.IRepositories;
-using AutoMapper;
+﻿using AutoMapper;
 using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DAL.Repositories.IRepositories;
@@ -20,7 +19,7 @@ namespace Hotel_Management_Software.BBL.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> Book(AddReservationDTO addReservationDTO)
+        public async Task<Guid> Book(AddReservationDTO addReservationDTO)
         {
             var guestDTO =  _mapper.Map<Guest>(addReservationDTO);
 
@@ -33,16 +32,30 @@ namespace Hotel_Management_Software.BBL.Services
 
             var reservationDTO = _mapper.Map<Reservation>(addReservationDTO);
 
-            reservationDTO.GuestId = guest.Id;
+                reservationDTO.GuestId = guest.Id;
 
          var reservation =  await  _reservationRepository.AddAsync(reservationDTO);
 
             if (reservation is not null)
             {
-                return true;
+                return reservation.Id;
             }
 
-            return false;
+            return Guid.Empty;
+        }
+
+        public  async Task<List<CalendarReservationDTO>> GetCalendarBookedDay(Guid roomId)
+        {
+            var reservations =  await _reservationRepository.GetListAsync(x => x.RoomId == roomId);
+
+            var reservationsDTO = _mapper.Map<List<CalendarReservationDTO>>(reservations);
+
+            if (reservationsDTO is not null)
+            {
+                return reservationsDTO;
+            }
+
+            return null;
         }
     }
 }

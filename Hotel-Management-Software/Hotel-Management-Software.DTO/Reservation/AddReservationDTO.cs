@@ -33,5 +33,5 @@ public class AddReservationDTO
 
     public Guid RoomId { get; set; }
 
-    public Guid GuestId { get; set; }
+   
 }
