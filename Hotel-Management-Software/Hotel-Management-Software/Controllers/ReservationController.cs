@@ -5,7 +5,8 @@ using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DTO.Reservation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-[Authorize]
+
+
 [Route("api/[controller]")]
 [ApiController]
 public class ReservationController : Controller
@@ -22,9 +23,22 @@ public class ReservationController : Controller
     {
      var result = await _reservationService.Book(AddReservationDTO);
 
-        if (result is true)
+        if (result != Guid.Empty)
         {
-            return Ok(new { result = result });
+            return Ok(new { Id = result });
+        }
+
+        return BadRequest();
+    }
+
+    [HttpGet("Calendar/{roomId}")]
+    public async Task<IActionResult> GetCaledarBookedDays(Guid roomId)
+    {
+        var result = await _reservationService.GetCalendarBookedDay(roomId);
+
+        if (result.Any())
+        {
+            return Ok(new { BookedDates = result });
         }
 
         return BadRequest();
