@@ -17,6 +17,8 @@ public static class DepedencyInjection
         services.AddAutoMapper(typeof(HotelProfile));
         services.AddAutoMapper(typeof(RoomProfile));
         services.AddAutoMapper(typeof(ImageProfile));
+        services.AddAutoMapper(typeof(GuestProfile));
+        services.AddAutoMapper(typeof(ReservationProfile));
 
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IUserService, UserService>();
@@ -24,6 +26,7 @@ public static class DepedencyInjection
         services.AddScoped<IRoomService, RoomService>();
         services.AddScoped<IFloorService, FloorService>();
         services.AddScoped<IFileStorageService, CloudinaryService>();
+        services.AddScoped<IReservationService, ReservationService>();
 
         services.AddScoped<ILogger, Logger<Floor>>();
     }
