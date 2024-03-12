@@ -5,7 +5,7 @@ using Hotel_Management_Software.DTO.Room;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// TODO: Add [Authorize] back
+ [Authorize] 
 [Route("api/[controller]")]
 [ApiController]
 public class RoomController : Controller

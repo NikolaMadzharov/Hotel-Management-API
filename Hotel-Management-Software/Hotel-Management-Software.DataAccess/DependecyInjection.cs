@@ -23,5 +23,7 @@ public static class DependecyInjection
         services.AddScoped<IRoomRepository, RoomRepository>();
         services.AddScoped<IFloorRepository, FloorRepository>();
         services.AddScoped<IRoomExtraRepository, RoomExtraRepository>();
+        services.AddScoped<IReservationRepository, ReservationRepository>();
+        services.AddScoped<IGuestRepository, GuestRepository>();
     }
 }
