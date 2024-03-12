@@ -1,81 +1,84 @@
-﻿using Hotel_Management_Software.BBL.Services.IServices;
+﻿namespace Hotel_Management_Software.Controllers;
+
+using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.DTO.Room;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Hotel_Management_Software.Controllers
+// TODO: Add [Authorize] back
+[Route("api/[controller]")]
+[ApiController]
+public class RoomController : Controller
 {
-    
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RoomController : Controller
+    private readonly IRoomService _roomService;
+
+    public RoomController(IRoomService roomService)
     {
-        private readonly IRoomService _roomService;
+        _roomService = roomService;
+    }
 
-        public RoomController(IRoomService roomService)
+    [HttpPost]
+    public async Task<IActionResult> CreateRoom([FromForm] RoomToAddDTO RoomToAddDTO)
+    {
+        var room = await _roomService.CreateAsync(RoomToAddDTO);
+
+        if (room is not null)
         {
-
-            _roomService = roomService;
+            return Ok(new { room = room });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateRoom([FromForm] RoomToAddDTO RoomToAddDTO)
+        return BadRequest();
+    }
+
+    [HttpGet("floor/{floorId}")]
+    public async Task<IActionResult> AllByFloorId(Guid floorId)
+    {
+        var rooms = await _roomService.GetRoomsByFloorId(floorId);
+
+        if (rooms is not null)
         {
-            var room = await _roomService.CreateAsync(RoomToAddDTO);
-
-
-            if (room is not null)
-            {
-                return Ok(new { room = room });
-
-            }
-            return BadRequest();
-
-
+            return Ok(new { rooms = rooms });
         }
 
-        [HttpGet("floor/{floorId}")]
-        public async Task<IActionResult> AllByFloorId(Guid floorId)
+        return BadRequest();
+    }
+
+    [HttpGet("{roomId}")]
+    public async Task<IActionResult> GetRoomById(Guid roomId)
+    {
+        var room = await _roomService.GetRoomByIdAsync(roomId);
+
+        if (room is not null)
         {
-            var rooms = await _roomService.GetRoomsByFloorId(floorId);
-
-            if (rooms is not null)
-            {
-                return Ok(new { rooms = rooms });
-
-            }
-
-
-            return BadRequest();
+            return Ok(new { room = room });
         }
-        [HttpGet("{roomId}")]
-        public async Task<IActionResult> GetRoomById(Guid roomId)
+
+        return BadRequest();
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Edit([FromForm] EditRoomDTO editRoomDTO)
+    {
+        var room = await _roomService.EditAsync(editRoomDTO);
+
+        if (room is null)
         {
-            var room = await _roomService.GetRoomByIdAsync(roomId);
-
-            if (room is not null)
-            {
-                return Ok(new { room = room });
-
-
-            }
-
-
             return BadRequest();
         }
 
-        [HttpPost("AddExtra")]
-        public async Task<IActionResult> AddExtraa(List<RoomExtraToAddDTO> roomExtraToAddDTO)
+        return Ok(new { room });
+    }
+
+    [HttpPost("AddExtra")]
+    public async Task<IActionResult> AddExtra(List<RoomExtraToAddDTO> roomExtraToAddDTO)
+    {
+        var roomExtra = await _roomService.AddRoomExtraAsync(roomExtraToAddDTO);
+
+        if (roomExtra is not null)
         {
-            var roomExtra = await _roomService.AddRoomExtraAsync(roomExtraToAddDTO);
-
-            if (roomExtra is not null)
-            {
-                return Ok(new { roomExtra });
-
-
-            }
-            return BadRequest();
+            return Ok(new { roomExtra });
         }
+
+        return BadRequest();
     }
 }

@@ -6,7 +6,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Room
 {
-
     public Room()
     {
         RoomExtras = new HashSet<RoomExtra>();
@@ -20,7 +19,8 @@ public class Room
     public int RoomNumber { get; set; }
 
     [DefaultValue(false)]
-     public bool IsBooked { get; set; }
+    public bool IsBooked { get; set; }
+
     [DefaultValue(true)]
     public bool IsCleaned { get; set; }
 

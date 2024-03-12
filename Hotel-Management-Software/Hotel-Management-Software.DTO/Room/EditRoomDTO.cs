@@ -2,11 +2,17 @@
 
 using System.ComponentModel.DataAnnotations;
 
-public class RoomToAddDTO
+public class EditRoomDTO
 {
     [Required]
-    [Range(minimum: 1, maximum: 9999)]
+    public Guid Id { get; set; }
+
+    [Required]
     public int RoomNumber { get; set; }
 
+    [Required]
     public Guid FloorId { get; set; }
+
+    [Required]
+    public bool IsCleaned { get; set; }
 }

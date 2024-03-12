@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace Hotel_Management_Software.DAL.Entities;
 
-namespace Hotel_Management_Software.DAL.Entities;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class RoomExtra
 {
@@ -14,6 +14,4 @@ public class RoomExtra
 
     [ForeignKey(nameof(RoomId))]
     public virtual Room? Room { get; set; }
-
-
 }
