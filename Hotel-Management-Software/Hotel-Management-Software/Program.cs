@@ -58,14 +58,11 @@ builder.Services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.RegisterDALDependencies(builder.Configuration);
 builder.Services.RegisterBLLDependencies(builder.Configuration);
 
 
 var app = builder.Build();
-
-
 
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -78,5 +75,21 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var serviceScope = app.Services.CreateScope())
+{
+    var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    // TODO: Move the roles array to roles constant class.
+    var roles = new[] { "Owner", "Admin", "Accountant", "Receptionist" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+}
 
 app.Run();
