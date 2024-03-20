@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Hotel_Management_Software.DAL.Entities.ApplicationUser;
 using Hotel_Management_Software.DataAccess.DataContext;
 using Hotel_Management_Software.Middleware;
+using Hotel_Management_Software.BBL.Constants;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,12 +82,13 @@ using (var serviceScope = app.Services.CreateScope())
 {
     var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    // TODO: Move the roles array to roles constant class.
-    var roles = new[] { "Owner", "Admin", "Accountant", "Receptionist" };
+    var roleFields = typeof(RoleConstants).GetFields(BindingFlags.Static | BindingFlags.Public);
 
-    foreach (var role in roles)
+    foreach (var roleField in roleFields)
     {
-        if (!await roleManager.RoleExistsAsync(role))
+        string role = (string)roleField.GetValue(null)!;
+
+        if (!await roleManager.RoleExistsAsync(role!))
         {
             await roleManager.CreateAsync(new IdentityRole(role));
         }
