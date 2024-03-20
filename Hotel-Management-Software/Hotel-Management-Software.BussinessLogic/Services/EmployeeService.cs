@@ -8,6 +8,8 @@ using Hotel_Management_Software.DTO.Employee;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
+using static Constants.RoleConstants;
+
 public class EmployeeService : IEmployeeService
 {
     private readonly IEmailService _emailService;
@@ -31,9 +33,9 @@ public class EmployeeService : IEmployeeService
 
     public async Task<EmployeeDTO?> CreateAsync(AddEmployeeDTO addEmployeeDTO)
     {
-        if (!await _roleManager.RoleExistsAsync(addEmployeeDTO.Role))
+        if (!await _roleManager.RoleExistsAsync(addEmployeeDTO.Role) || addEmployeeDTO.Role == OWNER)
         {
-            throw new CustomException("Invalid employee role.", 400);
+            throw new CustomException("Invalid employee account type.", 400);
         }
 
         var employee = _mapper.Map<ApplicationUser>(addEmployeeDTO);

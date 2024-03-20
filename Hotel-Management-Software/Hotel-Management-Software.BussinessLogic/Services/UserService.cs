@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 
+using static Constants.RoleConstants;
+
 public class UserService : IUserService
 {
     private readonly IEmailService _emailService;
@@ -65,7 +67,7 @@ public class UserService : IUserService
 
         if (result.Succeeded)
         {
-            await _userManager.AddToRoleAsync(user!, "Owner");
+            await _userManager.AddToRoleAsync(user!, OWNER);
 
             var imageUploadResult = await _storageService.UploadAsync(userToAddDTO.ProfilePicture, $"ProfilePictures/{Guid.NewGuid()}");
 
