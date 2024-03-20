@@ -18,4 +18,10 @@ public class AddEmployeeDTO
     [Required]
     public string Address { get; set; } = null!;
 
+    [Required]
+    public string Role { get; set; } = null!;
+
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; } = null!;
 }
