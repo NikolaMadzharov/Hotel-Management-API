@@ -19,6 +19,7 @@ public static class DepedencyInjection
         services.AddAutoMapper(typeof(ImageProfile));
         services.AddAutoMapper(typeof(GuestProfile));
         services.AddAutoMapper(typeof(ReservationProfile));
+        services.AddAutoMapper(typeof(EmployeeProfile));
 
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IUserService, UserService>();
@@ -27,6 +28,7 @@ public static class DepedencyInjection
         services.AddScoped<IFloorService, FloorService>();
         services.AddScoped<IFileStorageService, CloudinaryService>();
         services.AddScoped<IReservationService, ReservationService>();
+        services.AddScoped<IEmployeeService, EmployeeService>();
 
         services.AddScoped<ILogger, Logger<Floor>>();
     }
