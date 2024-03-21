@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Hotel_Management_Software.DAL.Entities.ApplicationUser;
 using Hotel_Management_Software.DataAccess.DataContext;
 using Hotel_Management_Software.Middleware;
+using Hotel_Management_Software.BBL.Constants;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,14 +60,11 @@ builder.Services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.RegisterDALDependencies(builder.Configuration);
 builder.Services.RegisterBLLDependencies(builder.Configuration);
 
 
 var app = builder.Build();
-
-
 
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -78,5 +77,22 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var serviceScope = app.Services.CreateScope())
+{
+    var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    var roleFields = typeof(RoleConstants).GetFields(BindingFlags.Static | BindingFlags.Public);
+
+    foreach (var roleField in roleFields)
+    {
+        string role = (string)roleField.GetValue(null)!;
+
+        if (!await roleManager.RoleExistsAsync(role!))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+}
 
 app.Run();

@@ -22,10 +22,10 @@ public class UserService : IUserService
     private readonly IConfiguration _configuration;
     private readonly IFileStorageService _storageService;
 
-    public UserService(IEmailService emailService, 
-        SignInManager<ApplicationUser> signInManager, 
-        UserManager<ApplicationUser> userManager, 
-        IMapper mapper, 
+    public UserService(IEmailService emailService,
+        SignInManager<ApplicationUser> signInManager,
+        UserManager<ApplicationUser> userManager,
+        IMapper mapper,
         IUserRepository userRepository,
         IConfiguration configuration,
         IFileStorageService storageService)
@@ -43,18 +43,16 @@ public class UserService : IUserService
     {
         var user = await _userRepository.GetAsync(x => x.UserName == userToLoginDTO.LoginCode);
 
-
         var result = await _signInManager.CheckPasswordSignInAsync(user, userToLoginDTO.Password, false);
-
 
         if (result.Succeeded is false)
         {
             throw new CustomException("Invalid login code or password!", 400);
-
         }
 
+        var roles = await _userManager.GetRolesAsync(user);
 
-        var token = JwtHelper.GenerateToken(user, _configuration);
+        var token = JwtHelper.GenerateToken(user, _configuration, [.. roles]);
 
         return token;
     }
@@ -63,23 +61,24 @@ public class UserService : IUserService
     {
         var user = _mapper.Map<ApplicationUser>(userToAddDTO);
 
-        var result =  await _userManager.CreateAsync(user, userToAddDTO.Password); 
+        var result = await _userManager.CreateAsync(user!, userToAddDTO.Password);
 
         if (result.Succeeded)
         {
+            await _userManager.AddToRoleAsync(user!, "Owner");
+
             var imageUploadResult = await _storageService.UploadAsync(userToAddDTO.ProfilePicture, $"ProfilePictures/{Guid.NewGuid()}");
 
             if (imageUploadResult.StatusCode == HttpStatusCode.OK)
             {
                 var image = _mapper.Map<Image>(imageUploadResult);
-                user.Image = image!;
+                user!.Image = image!;
                 _ = await _userRepository.UpdateAsync(user);
             }
 
-            await _emailService.SendLoginCodeAsync(user);
+            await _emailService.SendLoginCodeAsync(user!);
             return true;
         }
-
 
         return false;
     }
