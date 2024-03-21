@@ -84,4 +84,22 @@ public class UserService : IUserService
 
         return false;
     }
+
+    public async Task<bool> PasswordResetAsync(string username, string resetToken, string newPassword)
+    {
+        var user = await _userRepository.GetAsync(u => u.UserName == username);
+
+        // TODO:
+        // UpdateAsync used as a workaround to put the user in the change tracker so that the userManager can update it.
+        _ = await _userRepository.UpdateAsync(user);
+
+        var result = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
+
+        if (result.Succeeded)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
