@@ -6,6 +6,7 @@ using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.DAL.Entities.ApplicationUser;
 using Hotel_Management_Software.DTO.Employee;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 using static Constants.RoleConstants;
@@ -54,5 +55,12 @@ public class EmployeeService : IEmployeeService
         }
 
         return null;
+    }
+
+    public async Task<string[]> GetEmployeeRolesAsync()
+    {
+        string?[] roles = await _roleManager.Roles.Where(r => r.Name != OWNER).Select(r => r.Name).ToArrayAsync();
+
+        return roles;
     }
 }

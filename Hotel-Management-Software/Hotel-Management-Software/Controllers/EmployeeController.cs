@@ -31,4 +31,12 @@ public class EmployeeController : Controller
 
         return Ok(new { employee });
     }
+
+    [HttpGet("Roles")]
+    public async Task<IActionResult> GetRoles()
+    {
+        var roles = await _employeeService.GetEmployeeRolesAsync();
+
+        return Ok(new { roles });
+    }
 }
