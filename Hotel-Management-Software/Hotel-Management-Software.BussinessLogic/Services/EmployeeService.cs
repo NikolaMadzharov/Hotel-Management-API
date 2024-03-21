@@ -44,8 +44,12 @@ public class EmployeeService : IEmployeeService
 
         if (result.Succeeded)
         {
-            // TODO: Send pasword reset link to email address and provide the generated username.
-            
+            await _userManager.AddToRoleAsync(employee!, addEmployeeDTO.Role);
+
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(employee!);
+
+            await _emailService.SendResetLinkAsync(employee!, resetToken);
+
             return _mapper.Map<EmployeeDTO>(employee);
         }
 
