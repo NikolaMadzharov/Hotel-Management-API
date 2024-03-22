@@ -10,5 +10,8 @@ public class ReservationProfile:Profile
         CreateMap<Reservation, AddReservationDTO>().ReverseMap();
 
         CreateMap<Reservation, CalendarReservationDTO>().ReverseMap();
+
+        CreateMap<Reservation, ReservationDTO>().ReverseMap();
+
     }
 }

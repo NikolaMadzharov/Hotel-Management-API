@@ -43,4 +43,17 @@ public class ReservationController : Controller
 
         return BadRequest();
     }
+
+    [HttpGet("{roomId}")]
+    public async Task<IActionResult> Get(Guid roomId)
+    {
+        var result = await _reservationService.GetAllReservationsByRoom(roomId);
+
+        if (result is not null)
+        {
+            return Ok(new { ALlReservations = result });
+        }
+
+        return BadRequest();
+    }
 }

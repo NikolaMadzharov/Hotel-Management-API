@@ -16,4 +16,6 @@ public class RoomDTO
     public bool IsCleaned { get; set; }
 
     public virtual ICollection<RoomExtraDTO> RoomExtras { get; set; }
+
+  
 }

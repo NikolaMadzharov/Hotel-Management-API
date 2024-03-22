@@ -44,6 +44,15 @@ namespace Hotel_Management_Software.BBL.Services
             return Guid.Empty;
         }
 
+        public async Task<List<ReservationDTO>> GetAllReservationsByRoom(Guid id)
+        {
+            var reservation = await _reservationRepository.GetListAsync(x => x.RoomId == id);
+
+            var reservationDTO = _mapper.Map<List<ReservationDTO>>(reservation);
+
+            return reservationDTO;
+        }
+
         public  async Task<List<CalendarReservationDTO>> GetCalendarBookedDay(Guid roomId)
         {
             var reservations =  await _reservationRepository.GetListAsync(x => x.RoomId == roomId);
