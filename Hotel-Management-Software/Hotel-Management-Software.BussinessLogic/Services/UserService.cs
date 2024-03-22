@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 
+using static Constants.RoleConstants;
+
 public class UserService : IUserService
 {
     private readonly IEmailService _emailService;
@@ -65,7 +67,7 @@ public class UserService : IUserService
 
         if (result.Succeeded)
         {
-            await _userManager.AddToRoleAsync(user!, "Owner");
+            await _userManager.AddToRoleAsync(user!, OWNER);
 
             var imageUploadResult = await _storageService.UploadAsync(userToAddDTO.ProfilePicture, $"ProfilePictures/{Guid.NewGuid()}");
 
@@ -77,6 +79,24 @@ public class UserService : IUserService
             }
 
             await _emailService.SendLoginCodeAsync(user!);
+            return true;
+        }
+
+        return false;
+    }
+
+    public async Task<bool> PasswordResetAsync(string username, string resetToken, string newPassword)
+    {
+        var user = await _userRepository.GetAsync(u => u.UserName == username);
+
+        // TODO:
+        // UpdateAsync used as a workaround to put the user in the change tracker so that the userManager can update it.
+        _ = await _userRepository.UpdateAsync(user);
+
+        var result = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
+
+        if (result.Succeeded)
+        {
             return true;
         }
 

@@ -7,4 +7,6 @@ public interface IUserService
     Task<bool> RegisterAsync(UserToAddDTO userToAddDTO);
 
     Task<string> LoginAsync(UserLoginDTO userToLoginDTO);
+
+    Task<bool> PasswordResetAsync(string username, string resetToken, string newPassword);
 }
