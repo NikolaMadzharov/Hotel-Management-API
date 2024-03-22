@@ -9,5 +9,7 @@ public class GuestProfile :Profile
     public GuestProfile()
     {
         CreateMap<AddReservationDTO, Guest>().ReverseMap();
+
+        CreateMap<GuestDTO, Guest>().ReverseMap();
     }
 }
