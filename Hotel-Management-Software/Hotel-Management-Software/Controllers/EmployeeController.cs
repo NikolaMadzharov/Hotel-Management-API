@@ -32,6 +32,14 @@ public class EmployeeController : Controller
         return Ok(new { employee });
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAllByHotel([FromQuery] Guid hotelId)
+    {
+        var empoyees = await _employeeService.GetAllByHotelAsync(hotelId);
+
+        return Ok(new { empoyees });
+    }
+
     [HttpGet("Roles")]
     public async Task<IActionResult> GetRoles()
     {

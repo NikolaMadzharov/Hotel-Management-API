@@ -24,4 +24,7 @@ public class AddEmployeeDTO
     [Required]
     [EmailAddress]
     public string Email { get; set; } = null!;
+
+    [Required]
+    public Guid HotelId { get; set; }
 }

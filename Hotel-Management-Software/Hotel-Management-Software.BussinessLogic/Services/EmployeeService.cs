@@ -4,9 +4,12 @@ using AutoMapper;
 using Hotel_Management_Software.BBL.Exceptions;
 using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.DAL.Entities.ApplicationUser;
+using Hotel_Management_Software.DAL.Repositories.IRepositories;
 using Hotel_Management_Software.DTO.Employee;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using static Constants.RoleConstants;
@@ -17,18 +20,21 @@ public class EmployeeService : IEmployeeService
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
 
     public EmployeeService(IEmailService emailService,
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole> roleManager,
+        IUserRepository userRepository,
         IMapper mapper)
     {
         _emailService = emailService;
         _signInManager = signInManager;
         _userManager = userManager;
         _roleManager = roleManager;
+        _userRepository = userRepository;
         _mapper = mapper;
     }
 
@@ -55,6 +61,15 @@ public class EmployeeService : IEmployeeService
         }
 
         return null;
+    }
+
+    public async Task<List<EmployeeDTO>> GetAllByHotelAsync(Guid hotelId)
+    {
+        var hotelEmployees = await _userRepository.GetListAsync(u => u.EmployeeHotelId == hotelId);
+
+        var employees = _mapper.Map<List<EmployeeDTO>>(hotelEmployees);
+
+        return employees;
     }
 
     public async Task<string[]> GetEmployeeRolesAsync()
