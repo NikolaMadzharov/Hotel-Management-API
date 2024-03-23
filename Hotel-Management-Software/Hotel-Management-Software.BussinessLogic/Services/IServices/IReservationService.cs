@@ -5,9 +5,11 @@ namespace Hotel_Management_Software.BBL.Services.IServices;
 
 public interface IReservationService
 {
-    Task<Guid> Book(AddReservationDTO addReservationDTO);
+    Task<Guid> BookAsync(AddReservationDTO addReservationDTO);
 
-    Task<List<ReservationDTO>> GetAllReservationsByRoom(Guid id);
+    Task<List<ReservationDTO>> GetAllReservationsByRoomAsync(Guid roomId);
 
-    Task<List<CalendarReservationDTO>> GetCalendarBookedDay(Guid roomId);
+    Task<ReservationDTO> GetReservationAsync(Guid reservationId);
+
+    Task<List<CalendarReservationDTO>> GetCalendarBookedDayAsync(Guid roomId);
 }
