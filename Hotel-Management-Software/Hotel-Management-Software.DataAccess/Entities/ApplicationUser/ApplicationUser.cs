@@ -2,7 +2,6 @@
 
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 public class ApplicationUser : IdentityUser
@@ -29,5 +28,10 @@ public class ApplicationUser : IdentityUser
     [DefaultValue(true)]
     public bool IsActive { get; set; }
 
+    [InverseProperty("Owner")]
     public virtual ICollection<Hotel> Hotels { get; set; }
+
+    public Guid? EmployeeHotelId { get; set; }
+    [ForeignKey(nameof(EmployeeHotelId))]
+    public virtual Hotel? EmployeeHotel { get; set; }
 }

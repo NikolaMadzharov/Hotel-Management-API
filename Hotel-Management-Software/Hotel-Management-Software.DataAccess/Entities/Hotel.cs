@@ -8,6 +8,7 @@ public class Hotel
     public Hotel()
     {
         Floors = new HashSet<Floor>();
+        Employees = new HashSet<ApplicationUser.ApplicationUser>();
     }
 
     [Key]
@@ -36,4 +37,7 @@ public class Hotel
     public virtual ApplicationUser.ApplicationUser Owner { get; set; } = null!;
 
     public virtual ICollection<Floor> Floors { get; set; }
+
+    [InverseProperty("EmployeeHotel")]
+    public virtual ICollection<ApplicationUser.ApplicationUser> Employees { get; set; }
 }
