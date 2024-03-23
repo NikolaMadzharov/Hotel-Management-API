@@ -19,7 +19,7 @@ namespace Hotel_Management_Software.BBL.Services
             _mapper = mapper;
         }
 
-        public async Task<Guid> Book(AddReservationDTO addReservationDTO)
+        public async Task<Guid> BookAsync(AddReservationDTO addReservationDTO)
         {
             var guestDTO =  _mapper.Map<Guest>(addReservationDTO);
 
@@ -44,7 +44,7 @@ namespace Hotel_Management_Software.BBL.Services
             return Guid.Empty;
         }
 
-        public async Task<List<ReservationDTO>> GetAllReservationsByRoom(Guid id)
+        public async Task<List<ReservationDTO>> GetAllReservationsByRoomAsync(Guid id)
         {
             var reservation = await _reservationRepository.GetListAsync(x => x.RoomId == id);
 
@@ -53,7 +53,7 @@ namespace Hotel_Management_Software.BBL.Services
             return reservationDTO;
         }
 
-        public  async Task<List<CalendarReservationDTO>> GetCalendarBookedDay(Guid roomId)
+        public  async Task<List<CalendarReservationDTO>> GetCalendarBookedDayAsync(Guid roomId)
         {
             var reservations =  await _reservationRepository.GetListAsync(x => x.RoomId == roomId);
 
@@ -65,6 +65,15 @@ namespace Hotel_Management_Software.BBL.Services
             }
 
             return null;
+        }
+
+        public async Task<ReservationDTO> GetReservationAsync(Guid reservationId)
+        {
+            var reservation = await _reservationRepository.GetAsync(x => x.Id == reservationId);
+
+            var reservationDTO = _mapper.Map<ReservationDTO>(reservation);
+
+            return reservationDTO;
         }
     }
 }
