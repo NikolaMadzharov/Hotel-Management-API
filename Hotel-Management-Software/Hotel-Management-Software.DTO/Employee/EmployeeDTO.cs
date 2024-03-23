@@ -15,4 +15,6 @@ public class EmployeeDTO
     public string Address { get; set; } = null!;
 
     public string Email { get; set; } = null!;
+
+    public Guid HotelId { get; set; }
 }
