@@ -19,7 +19,10 @@ public class HotelService : IHotelService
     private readonly IFileStorageService _storageService;
 
 
-    public HotelService(IMapper mapper, IHotelRepository hotelRepository, IFileStorageService storageService)
+    public HotelService(
+        IMapper mapper, 
+        IHotelRepository hotelRepository, 
+        IFileStorageService storageService)
     {
         _mapper = mapper;
         _hotelRepository = hotelRepository;

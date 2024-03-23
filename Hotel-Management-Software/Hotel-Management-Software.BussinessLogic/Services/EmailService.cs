@@ -1,5 +1,7 @@
 ﻿namespace Hotel_Management_Software.BBL.Services;
+
 using Hotel_Management_Software.BBL.Services.IServices;
+using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DAL.Entities.ApplicationUser;
 using MailKit.Net.Smtp;
 using MimeKit;
@@ -7,6 +9,85 @@ using System.Threading.Tasks;
 
 public class EmailService : IEmailService
 {
+    public async Task SendEmailForBookedReservation(Reservation reservation)
+    {
+        var email = new MimeMessage();
+        email.From.Add(MailboxAddress.Parse("innkeepershotelmanagement@gmail.com"));
+        email.To.Add(MailboxAddress.Parse(reservation.Guest.EmailAddress));
+        email.Subject = "Reservation Confirmation";
+
+        var htmlBody = $@"
+        <!DOCTYPE html>
+<html lang=""en"">
+<head>
+  <meta charset=""UTF-8"">
+  <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+  <title>Holiday Getaway Confirmation</title>
+  <style>
+    body {{
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }}
+    .container {{
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }}
+    h1, h2 {{
+      color: #333;
+      text-align: center;
+    }}
+    p {{
+      margin-bottom: 15px;
+    }}
+    .reservation-info {{
+      border-top: 2px solid #ccc;
+      margin-top: 20px;
+      padding-top: 20px;
+    }}
+    .footer {{
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+    }}
+  </style>
+</head>
+<body>
+  <div class=""container"">
+    <h1>Holiday Getaway Confirmation</h1>
+    <p>Dear {reservation.Guest.FirstName} {reservation.Guest.LastName},</p>
+    <p>Your holiday getaway reservation has been confirmed. Below are the details:</p>
+    <div class=""reservation-info"">
+      <h2>Reservation Details:</h2>
+      <p><strong>Reservation ID:</strong> {reservation.Id}</p>
+      <p><strong>Check-in Date:</strong> {reservation.From}</p>
+      <p><strong>Check-out Date:</strong> {reservation.To}]</p>
+      <p><strong>Additional Information:</strong> {reservation.Guest.AdditionalInformation}</p>
+      <p><strong>Price:</strong> [cenata na rezervaciqta]</p>
+    </div>
+    <p>Thank you for choosing us for your holiday getaway. We hope you have a fantastic time!</p>
+    <p class=""footer"">Best regards,<br> [imeto na hotela]</p>
+  </div>
+</body>
+</html>"
+;
+
+        var builder = new BodyBuilder();
+        builder.HtmlBody = htmlBody;
+        email.Body = builder.ToMessageBody();
+
+        using var smtp = new SmtpClient();
+        await smtp.ConnectAsync("smtp.gmail.com", 587, false);
+        await smtp.AuthenticateAsync("innkeepershotelmanagement@gmail.com", "tdwgmatlsyofcuga"); 
+        await smtp.SendAsync(email);
+        await smtp.DisconnectAsync(true);
+    }
+
     public async Task SendLoginCodeAsync(ApplicationUser UserToDTO)
     {
         var email = new MimeMessage();

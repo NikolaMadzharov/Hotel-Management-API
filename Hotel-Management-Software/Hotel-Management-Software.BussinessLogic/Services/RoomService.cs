@@ -16,7 +16,11 @@ public class RoomService : IRoomService
     private readonly IRoomExtraRepository _roomExtraRepository;
     private readonly IFloorRepository _floorRepository;
 
-    public RoomService(IMapper mapper, IRoomRepository roomRepository, IRoomExtraRepository roomExtraRepository, IFloorRepository floorRepository)
+    public RoomService(
+        IMapper mapper, 
+        IRoomRepository roomRepository, 
+        IRoomExtraRepository roomExtraRepository, 
+        IFloorRepository floorRepository)
     {
         _mapper = mapper;
         _roomRepository = roomRepository;
