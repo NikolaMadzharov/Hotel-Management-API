@@ -14,7 +14,9 @@ public class CloudinaryService : IFileStorageService
     private readonly IMapper _mapper;
     private readonly Cloudinary _cloudinary;
 
-    public CloudinaryService(IConfiguration configuration, IMapper mapper)
+    public CloudinaryService(
+        IConfiguration configuration, 
+        IMapper mapper)
     {
         _configuration = configuration;
         _mapper = mapper;

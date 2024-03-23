@@ -1,10 +1,12 @@
-﻿namespace Hotel_Management_Software.DTO.Reservation;
+﻿using Hotel_Management_Software.DTO.Room;
+
+namespace Hotel_Management_Software.DTO.Reservation;
 
 public class ReservationDTO
 {
     public Guid Id { get; set; }
 
-    public virtual GuestDTO Guest { get; set; } 
+    public virtual GuestDTO Guest { get; set; }
 
     public DateTime From { get; set; }
 

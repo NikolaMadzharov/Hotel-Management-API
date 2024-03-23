@@ -14,7 +14,10 @@ public class FloorService : IFloorService
     private readonly IFloorRepository _floorRepository;
     private readonly ILogger _logger;
 
-    public FloorService(IMapper mapper, IFloorRepository floorRepository, ILogger logger)
+    public FloorService(
+        IMapper mapper, 
+        IFloorRepository floorRepository, 
+        ILogger logger)
     {
         _mapper = mapper;
         _floorRepository = floorRepository;

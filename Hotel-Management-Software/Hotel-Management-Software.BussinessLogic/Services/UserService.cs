@@ -24,7 +24,8 @@ public class UserService : IUserService
     private readonly IConfiguration _configuration;
     private readonly IFileStorageService _storageService;
 
-    public UserService(IEmailService emailService,
+    public UserService(
+        IEmailService emailService,
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
         IMapper mapper,

@@ -11,12 +11,18 @@ namespace Hotel_Management_Software.BBL.Services
         private readonly IReservationRepository _reservationRepository;
         private readonly IGuestRepository _guestRepository;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
 
-        public ReservationService(IReservationRepository reservationRepository, IGuestRepository guestRepository, IMapper mapper)
+        public ReservationService(
+            IReservationRepository reservationRepository, 
+            IGuestRepository guestRepository, 
+            IMapper mapper,
+            IEmailService emailService)
         {
             _reservationRepository = reservationRepository;
             _guestRepository = guestRepository;
             _mapper = mapper;
+            _emailService = emailService;
         }
 
         public async Task<Guid> BookAsync(AddReservationDTO addReservationDTO)
@@ -38,8 +44,11 @@ namespace Hotel_Management_Software.BBL.Services
 
             if (reservation is not null)
             {
+                await _emailService.SendEmailForBookedReservation(reservationDTO);
                 return reservation.Id;
             }
+
+    
 
             return Guid.Empty;
         }
