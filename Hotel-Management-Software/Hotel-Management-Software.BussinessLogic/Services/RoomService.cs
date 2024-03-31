@@ -35,13 +35,13 @@ public class RoomService : IRoomService
         
         var room = await _roomRepository.GetAsync(x => x.Id == roomExtrasToAddDTO[0].RoomId);
 
-      
+
         foreach (var existingExtra in room.RoomExtras.ToList())
         {
             await _roomExtraRepository.DeleteAsync(existingExtra);
         }
 
-    
+
         var newRoomExtras = roomExtrasToAddDTO.Select(extra => _mapper.Map<RoomExtra>(extra)).ToList();
 
         newRoomExtras.ForEach(extra => extra.RoomId = room.Id);
