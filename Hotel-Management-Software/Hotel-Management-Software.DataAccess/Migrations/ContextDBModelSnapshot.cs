@@ -134,7 +134,7 @@ namespace Hotel_Management_Software.DAL.Migrations
 
                     b.HasIndex("HotelId");
 
-                    b.ToTable("Floors");
+                    b.ToTable("Floors", (string)null);
                 });
 
             modelBuilder.Entity("Hotel_Management_Software.DAL.Entities.Guest", b =>
@@ -185,7 +185,7 @@ namespace Hotel_Management_Software.DAL.Migrations
                     b.HasIndex("IdentityDocumentNumber")
                         .IsUnique();
 
-                    b.ToTable("Guests");
+                    b.ToTable("Guests", (string)null);
                 });
 
             modelBuilder.Entity("Hotel_Management_Software.DAL.Entities.Hotel", b =>
@@ -223,7 +223,7 @@ namespace Hotel_Management_Software.DAL.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Hotels");
+                    b.ToTable("Hotels", (string)null);
                 });
 
             modelBuilder.Entity("Hotel_Management_Software.DAL.Entities.Image", b =>
@@ -242,7 +242,7 @@ namespace Hotel_Management_Software.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
                 });
 
             modelBuilder.Entity("Hotel_Management_Software.DAL.Entities.Reservation", b =>
@@ -269,7 +269,7 @@ namespace Hotel_Management_Software.DAL.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("Hotel_Management_Software.DAL.Entities.Room", b =>
@@ -294,7 +294,7 @@ namespace Hotel_Management_Software.DAL.Migrations
 
                     b.HasIndex("FloorId");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Rooms", (string)null);
                 });
 
             modelBuilder.Entity("Hotel_Management_Software.DAL.Entities.RoomExtra", b =>
@@ -314,7 +314,7 @@ namespace Hotel_Management_Software.DAL.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("RoomExtras");
+                    b.ToTable("RoomExtras", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

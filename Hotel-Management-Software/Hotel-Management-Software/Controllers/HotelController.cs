@@ -39,7 +39,7 @@ public class HotelController : Controller
         string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
         var hotelDetails = await _hotelService.DetailsAsync(id, userId);
-        
+
         if (hotelDetails is not null)
         {
             return Ok(hotelDetails);
@@ -47,7 +47,7 @@ public class HotelController : Controller
 
         return BadRequest();
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> All()
     {

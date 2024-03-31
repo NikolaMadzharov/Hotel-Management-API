@@ -32,29 +32,33 @@ public class RoomService : IRoomService
     {
         var addedRoomExtrasDTO = new List<RoomExtraDTO>();
 
+      
         var room = await _roomRepository.GetAsync(x => x.Id == roomExtrasToAddDTO[0].RoomId);
+
+        
         room.RoomExtras.Clear();
 
         foreach (var extra in roomExtrasToAddDTO)
         {
+           
             var extraMap = _mapper.Map<RoomExtra>(extra);
 
+         
+            extraMap.RoomId = room.Id;
 
-
-
-
+        
             await _roomExtraRepository.AddAsync(extraMap);
 
-
             var addedExtraDTO = _mapper.Map<RoomExtraDTO>(extraMap);
+
             addedRoomExtrasDTO.Add(addedExtraDTO);
-
-
-
-
         }
 
+       
+        await _roomRepository.UpdateAsync(room);
+
         return addedRoomExtrasDTO;
+
     }
 
     public async Task<RoomDTO> CreateAsync(RoomToAddDTO roomToAddDTO)
