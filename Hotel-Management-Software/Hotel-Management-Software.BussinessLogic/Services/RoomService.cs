@@ -32,32 +32,38 @@ public class RoomService : IRoomService
     {
         var addedRoomExtrasDTO = new List<RoomExtraDTO>();
 
-      
+        // Get the room by its ID
         var room = await _roomRepository.GetAsync(x => x.Id == roomExtrasToAddDTO[0].RoomId);
 
-        
-        room.RoomExtras.Clear();
-
-        foreach (var extra in roomExtrasToAddDTO)
+        // Delete existing room extras
+        foreach (var existingExtra in room.RoomExtras.ToList())
         {
-           
-            var extraMap = _mapper.Map<RoomExtra>(extra);
-
-         
-            extraMap.RoomId = room.Id;
-
-        
-            await _roomExtraRepository.AddAsync(extraMap);
-
-            var addedExtraDTO = _mapper.Map<RoomExtraDTO>(extraMap);
-
-            addedRoomExtrasDTO.Add(addedExtraDTO);
+            await _roomExtraRepository.DeleteAsync(existingExtra);
         }
 
-       
-        await _roomRepository.UpdateAsync(room);
+        // Map room extras DTOs to entities
+        var newRoomExtras = roomExtrasToAddDTO.Select(extra => _mapper.Map<RoomExtra>(extra)).ToList();
+
+        // Set RoomId for new room extras
+        newRoomExtras.ForEach(extra => extra.RoomId = room.Id);
+
+        // Add new room extras
+        await _roomExtraRepository.AddRangeAsync(newRoomExtras);
+
+        // Update the changes to the database
+        await _roomExtraRepository.UpdateRangeAsync(newRoomExtras);
+
+        // Map added room extras back to DTOs
+        addedRoomExtrasDTO = newRoomExtras.Select(extra => _mapper.Map<RoomExtraDTO>(extra)).ToList();
 
         return addedRoomExtrasDTO;
+
+
+
+
+
+
+
 
     }
 
