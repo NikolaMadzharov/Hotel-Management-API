@@ -5,6 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class SalaryReport
 {
+    public SalaryReport()
+    {
+        Date = DateTime.UtcNow;
+    }
+
     [Key]
     public Guid Id { get; set; }
 
