@@ -21,6 +21,14 @@ public class ApplicationUser : IdentityUser
 
     public string Address { get; set; } = null!;
 
+    public decimal? Salary { get; set; }
+
+    [Column(TypeName = "Timestamp")]
+    public DateTime? HieredDate { get; set; }
+
+    [Column(TypeName = "Timestamp")]
+    public DateTime? TerminationDate { get; set; }
+
     public Guid? ImageId { get; set; }
     [ForeignKey(nameof(ImageId))]
     public virtual Image? Image { get; set; }
