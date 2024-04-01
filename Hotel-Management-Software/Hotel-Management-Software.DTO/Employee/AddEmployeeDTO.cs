@@ -1,5 +1,6 @@
 ﻿namespace Hotel_Management_Software.DTO.Employee;
 
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 public class AddEmployeeDTO
@@ -19,6 +20,15 @@ public class AddEmployeeDTO
     public string Address { get; set; } = null!;
 
     [Required]
+    public string PhoneNumber { get; set; } = null!;
+
+    [Required]
+    public decimal Salary { get; set; }
+
+    [Required]
+    public DateTime HieredDate { get; set; }
+
+    [Required]
     public string Role { get; set; } = null!;
 
     [Required]
@@ -27,4 +37,7 @@ public class AddEmployeeDTO
 
     [Required]
     public Guid HotelId { get; set; }
+
+    [DefaultValue(true)]
+    public bool IsActive { get; set; }
 }
