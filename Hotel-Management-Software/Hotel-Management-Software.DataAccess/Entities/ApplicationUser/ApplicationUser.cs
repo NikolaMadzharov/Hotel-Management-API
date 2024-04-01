@@ -9,6 +9,7 @@ public class ApplicationUser : IdentityUser
     public ApplicationUser()
     {
         Hotels = new HashSet<Hotel>();
+        SalaryReports = new HashSet<SalaryReport>();
     }
 
     public string? FirstName { get; set; }
@@ -42,4 +43,6 @@ public class ApplicationUser : IdentityUser
     public Guid? EmployeeHotelId { get; set; }
     [ForeignKey(nameof(EmployeeHotelId))]
     public virtual Hotel? EmployeeHotel { get; set; }
+
+    public virtual ICollection<SalaryReport> SalaryReports { get; set; }
 }
