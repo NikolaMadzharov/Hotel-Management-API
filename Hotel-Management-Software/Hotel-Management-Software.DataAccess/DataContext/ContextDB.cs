@@ -25,6 +25,8 @@ public class ContextDB : IdentityDbContext<ApplicationUser>
 
     public virtual DbSet<Reservation> Reservations { get; set; }
 
+    public virtual DbSet<SalaryReport> SalaryReports { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
