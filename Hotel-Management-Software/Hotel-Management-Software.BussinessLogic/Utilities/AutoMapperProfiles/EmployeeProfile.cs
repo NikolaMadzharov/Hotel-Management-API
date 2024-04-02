@@ -2,7 +2,6 @@
 
 using AutoMapper;
 using Hotel_Management_Software.BussinessLogic.Helpers;
-using Hotel_Management_Software.DAL.Entities;
 using Hotel_Management_Software.DAL.Entities.ApplicationUser;
 using Hotel_Management_Software.DTO.Employee;
 
@@ -17,6 +16,7 @@ public class EmployeeProfile : Profile
         CreateMap<EmployeeDTO, ApplicationUser>().ReverseMap()
             .ForMember(destination => destination.HotelId, opt => opt.MapFrom(src => src.EmployeeHotelId));
 
-       
+        CreateMap<ApplicationUser, EditEmployeeDTO>().ReverseMap()
+            .ForMember(destination => destination.EmployeeHotelId, opt => opt.MapFrom(src => src.HotelId));
     }
 }
