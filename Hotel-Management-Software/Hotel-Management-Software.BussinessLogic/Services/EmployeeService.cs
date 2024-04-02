@@ -72,6 +72,21 @@ public class EmployeeService : IEmployeeService
         return employees;
     }
 
+    public async Task<EmployeeDTO> GetAnEmployeeById(Guid employeeId)
+    {
+        var employee = await _userRepository.GetAsync(x => x.Id == employeeId.ToString());
+
+
+        if (employee is null)
+        {
+            throw new CustomException("Invalid employee!", 400);
+        }
+
+        var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
+
+        return employeeDTO;
+    }
+
     public async Task<string[]> GetEmployeeRolesAsync()
     {
         string?[] roles = await _roleManager.Roles.Where(r => r.Name != OWNER).Select(r => r.Name).ToArrayAsync();

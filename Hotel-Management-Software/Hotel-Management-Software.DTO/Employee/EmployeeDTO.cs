@@ -1,4 +1,9 @@
-﻿namespace Hotel_Management_Software.DTO.Employee;
+﻿using Hotel_Management_Software.DTO.SalaryReport;
+
+namespace Hotel_Management_Software.DTO.Employee;
+
+
+
 
 public class EmployeeDTO
 {
@@ -15,6 +20,10 @@ public class EmployeeDTO
     public string Address { get; set; } = null!;
 
     public string Email { get; set; } = null!;
+
+    public decimal Salary { get; set; }
+
+    public virtual ICollection<SalaryReportDTO> SalaryReports { get; set; }
 
     public Guid HotelId { get; set; }
 }
