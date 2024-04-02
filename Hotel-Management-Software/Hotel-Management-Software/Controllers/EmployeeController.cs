@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using static Hotel_Management_Software.BBL.Constants.RoleConstants;
 
-[Authorize(Roles = $"{OWNER}, {ADMIN}")]
+//[Authorize(Roles = $"{OWNER}, {ADMIN}")]
 [Route("api/[controller]")]
 [ApiController]
 public class EmployeeController : Controller
@@ -35,9 +35,9 @@ public class EmployeeController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAllByHotel([FromQuery] Guid hotelId)
     {
-        var empoyees = await _employeeService.GetAllByHotelAsync(hotelId);
+        var employees = await _employeeService.GetAllByHotelAsync(hotelId);
 
-        return Ok(new { empoyees });
+        return Ok(new { employees });
     }
 
     [HttpGet("Roles")]
@@ -46,5 +46,13 @@ public class EmployeeController : Controller
         var roles = await _employeeService.GetEmployeeRolesAsync();
 
         return Ok(new { roles });
+    }
+
+    [HttpGet("{employeeId}")]
+    public async Task<IActionResult> GetEmployeeById(Guid employeeId)
+    {
+        var employee = await _employeeService.GetAnEmployeeById(employeeId);
+
+        return Ok(new { employee });
     }
 }

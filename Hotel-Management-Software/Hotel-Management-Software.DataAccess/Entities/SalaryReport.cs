@@ -21,6 +21,9 @@ public class SalaryReport
     public DateTime Date { get; set; }
 
     [Required]
+    public decimal Salary { get; set; }
+
+    [Required]
     public string EmployeeId { get; set; } = null!;
     [ForeignKey(nameof(EmployeeId))]
     public virtual ApplicationUser.ApplicationUser Employee { get; set; } = null!;
