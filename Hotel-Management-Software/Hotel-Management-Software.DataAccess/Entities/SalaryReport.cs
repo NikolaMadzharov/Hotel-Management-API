@@ -7,7 +7,7 @@ public class SalaryReport
 {
     public SalaryReport()
     {
-        Date = DateTime.UtcNow;
+        Date = DateTime.Now;
     }
 
     [Key]

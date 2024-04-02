@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using static Hotel_Management_Software.BBL.Constants.RoleConstants;
 
-//[Authorize(Roles = $"{OWNER}, {ADMIN}")]
+[Authorize(Roles = $"{OWNER}, {ADMIN}")]
 [Route("api/[controller]")]
 [ApiController]
 public class EmployeeController : Controller
