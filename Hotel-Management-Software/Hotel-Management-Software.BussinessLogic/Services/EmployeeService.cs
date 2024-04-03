@@ -63,7 +63,27 @@ public class EmployeeService : IEmployeeService
         return null;
     }
 
-    public async Task<List<EmployeeDTO>> GetAllByHotelAsync(Guid hotelId)
+    public async Task<EmployeeDTO?> EditAsync(EditEmployeeDTO editEmployeeDTO)
+    {
+        var employee = await _userRepository.GetAsync(e => e.Id == editEmployeeDTO.Id) ?? throw new KeyNotFoundException();
+
+        employee.FirstName = editEmployeeDTO.FirstName;
+        employee.MiddleName = editEmployeeDTO.MiddleName;
+        employee.LastName = editEmployeeDTO.LastName;
+        employee.EGN = editEmployeeDTO.EGN;
+        employee.Address = editEmployeeDTO.Address;
+        employee.Email = editEmployeeDTO.Email;
+        employee.Salary = editEmployeeDTO.Salary;
+        employee.EmployeeHotelId = editEmployeeDTO.HotelId;
+
+        _ = await _userRepository.UpdateAsync(employee!);
+
+        var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
+
+        return employeeDTO;
+    }
+
+    public async Task<List<EmployeeDTO>?> GetAllByHotelAsync(Guid hotelId)
     {
         var hotelEmployees = await _userRepository.GetListAsync(u => u.EmployeeHotelId == hotelId);
 
@@ -87,7 +107,7 @@ public class EmployeeService : IEmployeeService
         return employeeDTO;
     }
 
-    public async Task<string[]> GetEmployeeRolesAsync()
+    public async Task<string?[]> GetEmployeeRolesAsync()
     {
         string?[] roles = await _roleManager.Roles.Where(r => r.Name != OWNER).Select(r => r.Name).ToArrayAsync();
 

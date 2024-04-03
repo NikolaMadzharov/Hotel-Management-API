@@ -6,9 +6,11 @@ public interface IEmployeeService
 {
     Task<EmployeeDTO?> CreateAsync(AddEmployeeDTO addEmployeeDTO);
 
-    Task<List<EmployeeDTO>> GetAllByHotelAsync(Guid hotelId);
+    Task<List<EmployeeDTO>?> GetAllByHotelAsync(Guid hotelId);
 
     Task<EmployeeDTO> GetAnEmployeeById(Guid employeeId);
 
-    Task<string[]> GetEmployeeRolesAsync();
+    Task<string?[]> GetEmployeeRolesAsync();
+
+    Task<EmployeeDTO?> EditAsync(EditEmployeeDTO editEmployeeDTO);
 }

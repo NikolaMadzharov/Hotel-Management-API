@@ -32,6 +32,19 @@ public class EmployeeController : Controller
         return Ok(new { employee });
     }
 
+    [HttpPut]
+    public async Task<IActionResult> Edit([FromForm] EditEmployeeDTO editEmployeeDTO)
+    {
+        var employee = await _employeeService.EditAsync(editEmployeeDTO);
+
+        if(employee is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(new { employee });
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetAllByHotel([FromQuery] Guid hotelId)
     {
