@@ -8,9 +8,12 @@ public interface IEmployeeService
 
     Task<List<EmployeeDTO>?> GetAllByHotelAsync(Guid hotelId);
 
-    Task<EmployeeDTO> GetAnEmployeeById(Guid employeeId);
+    Task<EmployeeDTO?> GetAnEmployeeById(Guid employeeId);
 
     Task<string?[]> GetEmployeeRolesAsync();
 
     Task<EmployeeDTO?> EditAsync(EditEmployeeDTO editEmployeeDTO);
+
+    Task<EmployeeDTO?> ActivateAccount(Guid employeeId);
+    Task<EmployeeDTO?> DeactivateAccount(Guid employeeId);
 }

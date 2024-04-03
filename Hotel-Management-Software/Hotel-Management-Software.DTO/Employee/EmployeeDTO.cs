@@ -21,6 +21,8 @@ public class EmployeeDTO
 
     public string Email { get; set; } = null!;
 
+    public bool IsActive { get; set; } 
+
     public decimal Salary { get; set; }
 
     public virtual ICollection<SalaryReportDTO> SalaryReports { get; set; }
