@@ -38,6 +38,27 @@ public class EmployeeService : IEmployeeService
         _mapper = mapper;
     }
 
+    public async Task<EmployeeDTO?> ActivateAccount(Guid employeeId)
+    {
+        var employee = await _userRepository.GetAsync(x => x.Id == employeeId.ToString());
+
+        if (employee is null)
+        {
+            throw new CustomException("Invalid employee!", 400);
+        }
+
+        if (employee.IsActive = true)
+        {
+            throw new CustomException("This account is already activated!", 400);
+        }
+
+        employee.IsActive = true;
+
+        var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
+
+        return employeeDTO;
+    }
+
     public async Task<EmployeeDTO?> CreateAsync(AddEmployeeDTO addEmployeeDTO)
     {
         if (!await _roleManager.RoleExistsAsync(addEmployeeDTO.Role) || addEmployeeDTO.Role == OWNER)
@@ -61,6 +82,27 @@ public class EmployeeService : IEmployeeService
         }
 
         return null;
+    }
+
+    public async Task<EmployeeDTO?> DeactivateAccount(Guid employeeId)
+    {
+        var employee =  await _userRepository.GetAsync(x => x.Id == employeeId.ToString());
+
+        if (employee is null)
+        {
+            throw new CustomException("Invalid employee!", 400);
+        }
+
+        if (employee.IsActive == false)
+        {
+            throw new CustomException("This account is already deactivated!", 400);
+        }
+
+        employee.IsActive = false;
+
+        var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
+
+        return employeeDTO;
     }
 
     public async Task<EmployeeDTO?> EditAsync(EditEmployeeDTO editEmployeeDTO)
