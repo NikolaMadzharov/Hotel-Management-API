@@ -224,7 +224,7 @@ public class EmailService : IEmailService
         <p class='code'>Your LogcinCode: {user.UserName}</p>
         <p class='note'>You will use this login code along with your password to log in.</p>
         <p class='note'>Please click the button below to set up your password:</p>
-        <a class='button' href='https://FrontEndPasswordResetEndpoint?token={resetToken}&user={user.UserName}'>Set Password</a>
+        <a class='button' href='http://localhost:3000/settings/account/pass-reset?token={resetToken}&user={user.UserName}'>Set Password</a>
         <p class='note'>If you did not register for an account, please ignore this email.</p>
     </div>
 </body>
