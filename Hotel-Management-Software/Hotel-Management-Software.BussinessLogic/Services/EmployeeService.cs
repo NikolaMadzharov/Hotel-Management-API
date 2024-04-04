@@ -47,7 +47,7 @@ public class EmployeeService : IEmployeeService
             throw new CustomException("Invalid employee!", 400);
         }
 
-        if (employee.IsActive = true)
+        if (employee.IsActive)
         {
             throw new CustomException("This account is already activated!", 400);
         }
@@ -146,10 +146,9 @@ public class EmployeeService : IEmployeeService
         return employees;
     }
 
-    public async Task<EmployeeDTO> GetAnEmployeeById(Guid employeeId)
+    public async Task<EmployeeDTO?> GetAnEmployeeById(Guid employeeId)
     {
         var employee = await _userRepository.GetAsync(x => x.Id == employeeId.ToString());
-
 
         if (employee is null)
         {
@@ -157,6 +156,8 @@ public class EmployeeService : IEmployeeService
         }
 
         var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
+
+        employeeDTO!.Roles = await _userManager.GetRolesAsync(employee);
 
         return employeeDTO;
     }
