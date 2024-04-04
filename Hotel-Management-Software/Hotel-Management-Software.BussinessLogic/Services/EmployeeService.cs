@@ -125,11 +125,23 @@ public class EmployeeService : IEmployeeService
         return employeeDTO;
     }
 
-    public async Task<List<EmployeeDTO>?> GetAllByHotelAsync(Guid hotelId)
+    public async Task<List<EmployeeShortDTO>?> GetAllByHotelAsync(Guid hotelId)
     {
         var hotelEmployees = await _userRepository.GetListAsync(u => u.EmployeeHotelId == hotelId);
 
-        var employees = _mapper.Map<List<EmployeeDTO>>(hotelEmployees);
+        List<EmployeeShortDTO>? employees = [];
+
+        foreach (var employee in hotelEmployees)
+        {
+            employees.Add(new EmployeeShortDTO
+            {
+                Id = employee.Id,
+                FirstName = employee.FirstName!,
+                MiddleName = employee.MiddleName,
+                LastName = employee.LastName!,
+                Roles = await _userManager.GetRolesAsync(employee)
+            });
+        }
 
         return employees;
     }

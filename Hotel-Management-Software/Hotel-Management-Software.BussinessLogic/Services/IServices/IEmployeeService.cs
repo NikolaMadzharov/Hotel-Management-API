@@ -6,7 +6,7 @@ public interface IEmployeeService
 {
     Task<EmployeeDTO?> CreateAsync(AddEmployeeDTO addEmployeeDTO);
 
-    Task<List<EmployeeDTO>?> GetAllByHotelAsync(Guid hotelId);
+    Task<List<EmployeeShortDTO>?> GetAllByHotelAsync(Guid hotelId);
 
     Task<EmployeeDTO?> GetAnEmployeeById(Guid employeeId);
 
