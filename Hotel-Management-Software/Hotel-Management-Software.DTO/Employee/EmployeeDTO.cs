@@ -30,4 +30,6 @@ public class EmployeeDTO
     public ICollection<SalaryReportDTO> SalaryReports { get; set; }
 
     public Guid HotelId { get; set; }
+
+    public IEnumerable<string>? Roles { get; set; }
 }
