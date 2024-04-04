@@ -45,14 +45,9 @@ public class AccountController : Controller
     [HttpPost("PasswordReset")]
     public async Task<IActionResult> PasswordReset([FromForm] UserPasswordResetDTO userPasswordResetDTO)
     {
-        var result = await _userService.
+        await _userService.
             PasswordResetAsync(userPasswordResetDTO.LoginCode, userPasswordResetDTO.ResetToken, userPasswordResetDTO.Password);
 
-        if (result is true)
-        {
-            return Ok();
-        }
-
-        return BadRequest();
+        return Ok();
     }
 }

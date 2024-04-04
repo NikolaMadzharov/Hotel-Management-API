@@ -86,21 +86,15 @@ public class UserService : IUserService
         return false;
     }
 
-    public async Task<bool> PasswordResetAsync(string username, string resetToken, string newPassword)
+    public async Task PasswordResetAsync(string username, string resetToken, string newPassword)
     {
-        var user = await _userRepository.GetAsync(u => u.UserName == username);
-
-        // TODO:
-        // UpdateAsync used as a workaround to put the user in the change tracker so that the userManager can update it.
-        _ = await _userRepository.UpdateAsync(user);
+        var user = await _userManager.FindByNameAsync(username) ?? throw new CustomException("Invalid login code.", 404);
 
         var result = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
 
-        if (result.Succeeded)
+        if (!result.Succeeded)
         {
-            return true;
+            throw new CustomException(result.Errors.First().Description, 400);
         }
-
-        return false;
     }
 }
