@@ -1,12 +1,14 @@
-﻿using Hotel_Management_Software.DTO.SalaryReport;
+﻿namespace Hotel_Management_Software.DTO.Employee;
 
-namespace Hotel_Management_Software.DTO.Employee;
-
-
-
+using Hotel_Management_Software.DTO.SalaryReport;
 
 public class EmployeeDTO
 {
+    public EmployeeDTO()
+    {
+        SalaryReports = new HashSet<SalaryReportDTO>();
+    }
+
     public string Id { get; set; } = null!;
 
     public string FirstName { get; set; } = null!;
@@ -25,7 +27,7 @@ public class EmployeeDTO
 
     public decimal Salary { get; set; }
 
-    public virtual ICollection<SalaryReportDTO> SalaryReports { get; set; }
+    public ICollection<SalaryReportDTO> SalaryReports { get; set; }
 
     public Guid HotelId { get; set; }
 }
