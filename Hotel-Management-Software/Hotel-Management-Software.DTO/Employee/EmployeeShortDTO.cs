@@ -10,5 +10,7 @@ public class EmployeeShortDTO
 
     public string LastName { get; set; } = null!;
 
+    public bool IsActive { get; set; }
+
     public IEnumerable<string>? Roles { get; set; }
 }
