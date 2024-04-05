@@ -53,6 +53,7 @@ public class EmployeeService : IEmployeeService
         }
 
         employee.IsActive = true;
+        await _userRepository.UpdateAsync(employee);
 
         var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
 
@@ -99,6 +100,7 @@ public class EmployeeService : IEmployeeService
         }
 
         employee.IsActive = false;
+        await _userRepository.UpdateAsync(employee);
 
         var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
 
