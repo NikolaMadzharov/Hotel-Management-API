@@ -69,16 +69,16 @@ public class EmployeeController : Controller
         return Ok(new { employee });
     }
 
-    [HttpGet("Activate")]
-    public async Task<IActionResult> ActiveAccount([FromForm]Guid employeeId)
+    [HttpGet("Activate/{employeeId}")]
+    public async Task<IActionResult> ActiveAccount(Guid employeeId)
     {
         var employee = await _employeeService.ActivateAccount(employeeId);
 
         return Ok(new { employee });
     }
 
-    [HttpGet("Deactivate")]
-    public async Task<IActionResult> DeactiveAccount([FromForm]Guid employeeId)
+    [HttpGet("Deactivate/{employeeId}")]
+    public async Task<IActionResult> DeactiveAccount(Guid employeeId)
     {
         var employee = await _employeeService.DeactivateAccount(employeeId);
 
