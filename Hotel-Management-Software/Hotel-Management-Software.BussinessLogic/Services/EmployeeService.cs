@@ -141,7 +141,8 @@ public class EmployeeService : IEmployeeService
                 FirstName = employee.FirstName!,
                 MiddleName = employee.MiddleName,
                 LastName = employee.LastName!,
-                Roles = await _userManager.GetRolesAsync(employee)
+                Roles = await _userManager.GetRolesAsync(employee),
+                IsActive = employee.IsActive
             });
         }
 
