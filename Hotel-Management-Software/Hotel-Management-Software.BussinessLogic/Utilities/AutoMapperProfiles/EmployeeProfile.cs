@@ -14,7 +14,8 @@ public class EmployeeProfile : Profile
             .ForMember(destination => destination.UserName, opt => opt.MapFrom(src => RandomGenerator.Generate().ToString()));
 
         CreateMap<EmployeeDTO, ApplicationUser>().ReverseMap()
-            .ForMember(destination => destination.HotelId, opt => opt.MapFrom(src => src.EmployeeHotelId));
+            .ForMember(destination => destination.HotelId, opt => opt.MapFrom(src => src.EmployeeHotelId))
+            .ForMember(destination => destination.Roles, opt => opt.Ignore());
 
         CreateMap<ApplicationUser, EditEmployeeDTO>().ReverseMap()
             .ForMember(destination => destination.EmployeeHotelId, opt => opt.MapFrom(src => src.HotelId));

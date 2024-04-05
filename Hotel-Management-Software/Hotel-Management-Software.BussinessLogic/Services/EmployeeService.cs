@@ -47,7 +47,7 @@ public class EmployeeService : IEmployeeService
             throw new CustomException("Invalid employee!", 400);
         }
 
-        if (employee.IsActive = true)
+        if (employee.IsActive)
         {
             throw new CustomException("This account is already activated!", 400);
         }
@@ -125,19 +125,30 @@ public class EmployeeService : IEmployeeService
         return employeeDTO;
     }
 
-    public async Task<List<EmployeeDTO>?> GetAllByHotelAsync(Guid hotelId)
+    public async Task<List<EmployeeShortDTO>?> GetAllByHotelAsync(Guid hotelId)
     {
         var hotelEmployees = await _userRepository.GetListAsync(u => u.EmployeeHotelId == hotelId);
 
-        var employees = _mapper.Map<List<EmployeeDTO>>(hotelEmployees);
+        List<EmployeeShortDTO>? employees = [];
+
+        foreach (var employee in hotelEmployees)
+        {
+            employees.Add(new EmployeeShortDTO
+            {
+                Id = employee.Id,
+                FirstName = employee.FirstName!,
+                MiddleName = employee.MiddleName,
+                LastName = employee.LastName!,
+                Roles = await _userManager.GetRolesAsync(employee)
+            });
+        }
 
         return employees;
     }
 
-    public async Task<EmployeeDTO> GetAnEmployeeById(Guid employeeId)
+    public async Task<EmployeeDTO?> GetAnEmployeeById(Guid employeeId)
     {
         var employee = await _userRepository.GetAsync(x => x.Id == employeeId.ToString());
-
 
         if (employee is null)
         {
@@ -145,6 +156,8 @@ public class EmployeeService : IEmployeeService
         }
 
         var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
+
+        employeeDTO!.Roles = await _userManager.GetRolesAsync(employee);
 
         return employeeDTO;
     }
