@@ -20,6 +20,8 @@ public class EditEmployeeDTO
 
     [Required]
     public string Address { get; set; } = null!;
+    [Required]
+    public string PhoneNumber { get; set; } = null!;
 
     [Required]
     [EmailAddress]

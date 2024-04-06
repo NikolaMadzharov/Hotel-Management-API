@@ -23,7 +23,9 @@ public class EmployeeDTO
 
     public string Email { get; set; } = null!;
 
-    public bool IsActive { get; set; } 
+    public bool IsActive { get; set; }
+
+    public string PhoneNumber { get; set; } = null!;
 
     public decimal Salary { get; set; }
 
