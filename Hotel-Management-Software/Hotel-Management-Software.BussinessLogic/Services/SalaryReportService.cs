@@ -33,6 +33,13 @@ public class SalaryReportService : ISalaryReportService
 
         }
 
+        if (employee.Salary is null)
+        {
+            throw new CustomException("Employee does not have a salary!", 400);
+
+
+        }
+
         var salaryReportDTO = _mapper.Map<SalaryReport>(addSalaryReportDTO);
 
         salaryReportDTO.Salary = (decimal)employee.Salary; 
