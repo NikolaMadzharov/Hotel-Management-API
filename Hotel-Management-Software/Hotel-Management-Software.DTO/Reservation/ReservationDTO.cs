@@ -11,4 +11,6 @@ public class ReservationDTO
     public DateTime From { get; set; }
 
     public DateTime To { get; set; }
+
+    public decimal TotalPrice { get; set; }
 }

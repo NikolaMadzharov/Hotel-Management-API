@@ -25,4 +25,7 @@ public class Reservation
     [Required]
     [Column(TypeName = "Timestamp")]
     public DateTime To { get; set; }
+
+    [Required]
+    public decimal TotalPrice { get; set; }
 }
