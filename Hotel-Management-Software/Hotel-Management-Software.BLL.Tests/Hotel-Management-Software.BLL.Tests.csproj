@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hotel-Management-Software.BussinessLogic\Hotel-Management-Software.BLL.csproj" />
+    <ProjectReference Include="..\Hotel-Management-Software.DTO\Hotel-Management-Software.DTO.csproj" />
   </ItemGroup>
 
   <ItemGroup>
