@@ -9,13 +9,15 @@ namespace Hotel_Management_Software.BBL.Services
     public class ReservationService : IReservationService
     {
         private readonly IReservationRepository _reservationRepository;
+        private readonly IRoomRepository _roomRepository;
         private readonly IGuestRepository _guestRepository;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
 
         public ReservationService(
             IReservationRepository reservationRepository, 
-            IGuestRepository guestRepository, 
+            IGuestRepository guestRepository,
+            IRoomRepository roomRepository, 
             IMapper mapper,
             IEmailService emailService)
         {
@@ -23,6 +25,7 @@ namespace Hotel_Management_Software.BBL.Services
             _guestRepository = guestRepository;
             _mapper = mapper;
             _emailService = emailService;
+            _roomRepository = roomRepository;
         }
 
         public async Task<Guid> BookAsync(AddReservationDTO addReservationDTO)
@@ -34,21 +37,24 @@ namespace Hotel_Management_Software.BBL.Services
                 throw new ArgumentNullException(nameof(guestDTO));
             }
 
-         var guest =  await _guestRepository.AddAsync(guestDTO);
+         
+
+            var guest =  await _guestRepository.AddAsync(guestDTO);
 
             var reservationDTO = _mapper.Map<Reservation>(addReservationDTO);
 
-                reservationDTO.GuestId = guest.Id;
-
-         var reservation =  await  _reservationRepository.AddAsync(reservationDTO);
-
+            reservationDTO.GuestId = guest.Id;
+            reservationDTO.TotalPrice = await CalculatePriceforReservation(addReservationDTO);
+            
+            var reservation =  await  _reservationRepository.AddAsync(reservationDTO);
+         
             if (reservation is not null)
             {
                 await _emailService.SendEmailForBookedReservation(reservationDTO);
                 return reservation.Id;
             }
 
-    
+
 
             return Guid.Empty;
         }
@@ -83,6 +89,28 @@ namespace Hotel_Management_Software.BBL.Services
             var reservationDTO = _mapper.Map<ReservationDTO>(reservation);
 
             return reservationDTO;
+        }
+
+
+        private async Task<decimal> CalculatePriceforReservation(AddReservationDTO addReservationDTO)
+        {
+            var room = await _roomRepository.GetAsync(x => x.Id == addReservationDTO.RoomId);
+
+
+            if (room == null)
+            {
+                throw new ArgumentNullException(nameof(room));
+            }
+
+            room.IsBooked = true;
+
+            await _roomRepository.UpdateAsync(room);
+
+            var daysOfHoliday = addReservationDTO.From - addReservationDTO.To;
+
+            var totalPrice = Math.Abs(daysOfHoliday.Days * room.PricePerNight);
+
+            return totalPrice;
         }
     }
 }

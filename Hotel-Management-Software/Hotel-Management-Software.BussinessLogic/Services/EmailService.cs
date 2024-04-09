@@ -67,11 +67,11 @@ public class EmailService : IEmailService
       <p><strong>Reservation ID:</strong> {reservation.Id}</p>
       <p><strong>Check-in Date:</strong> {reservation.From}</p>
       <p><strong>Check-out Date:</strong> {reservation.To}]</p>
+      <p><strong>Price:</strong> {reservation.TotalPrice}</p>
       <p><strong>Additional Information:</strong> {reservation.Guest.AdditionalInformation}</p>
-      <p><strong>Price:</strong> [cenata na rezervaciqta]</p>
     </div>
     <p>Thank you for choosing us for your holiday getaway. We hope you have a fantastic time!</p>
-    <p class=""footer"">Best regards,<br> [imeto na hotela]</p>
+    <p class=""footer"">Best regards <br> </p>
   </div>
 </body>
 </html>"
