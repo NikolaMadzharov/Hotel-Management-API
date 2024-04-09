@@ -9,4 +9,9 @@ public class RoomToAddDTO
     public int RoomNumber { get; set; }
 
     public Guid FloorId { get; set; }
+
+    [Required]
+    public decimal PricePerNight { get; set; }
+    [Required]
+    public int PeopleCapacity { get; set; }
 }

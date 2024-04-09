@@ -25,6 +25,11 @@ public class Room
     public bool IsCleaned { get; set; }
 
     [Required]
+    public decimal PricePerNight { get; set; }
+    [Required]
+    public int PeopleCapacity { get; set; }
+
+    [Required]
     public Guid FloorId { get; set; }
 
     [ForeignKey(nameof(FloorId))]

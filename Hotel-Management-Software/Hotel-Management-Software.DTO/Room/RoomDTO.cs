@@ -1,4 +1,5 @@
 ﻿using Hotel_Management_Software.DTO.Floor;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hotel_Management_Software.DTO.Room;
 
@@ -16,6 +17,11 @@ public class RoomDTO
     public bool IsBooked { get; set; }
 
     public bool IsCleaned { get; set; }
+
+    [Required]
+    public decimal PricePerNight { get; set; }
+    [Required]
+    public int PeopleCapacity { get; set; }
 
     public virtual FloorDTO Floor { get; set; }
 

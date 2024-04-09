@@ -14,5 +14,10 @@ public class EditRoomDTO
     public Guid FloorId { get; set; }
 
     [Required]
+    public decimal PricePerNight { get; set; }
+    [Required]
+    public int PeopleCapacity { get; set; }
+
+    [Required]
     public bool IsCleaned { get; set; }
 }
