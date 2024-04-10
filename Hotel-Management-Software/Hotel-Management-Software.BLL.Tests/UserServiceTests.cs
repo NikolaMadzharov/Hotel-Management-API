@@ -6,12 +6,15 @@ using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.BBL.Utilities.AutoMapperProfiles;
 using Hotel_Management_Software.DAL.Entities.ApplicationUser;
 using Hotel_Management_Software.DAL.Repositories.IRepositories;
+using Hotel_Management_Software.DTO.Image;
 using Hotel_Management_Software.DTO.User;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using System.Net;
 
 public class UserServiceTests
 {
@@ -32,6 +35,7 @@ public class UserServiceTests
         _mapper = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new UserProfile());
+            cfg.AddProfile(new ImageProfile());
         }).CreateMapper();
 
         // Mocked dependencies.
@@ -106,6 +110,96 @@ public class UserServiceTests
 
         // Act & Assert
 
-        Assert.ThrowsAsync<CustomException>(async () => await userService.LoginAsync(userLoginDto));
+        var ex = Assert.ThrowsAsync<CustomException>(async () => await userService.LoginAsync(userLoginDto));
+        Assert.Multiple(() =>
+        {
+            Assert.That(ex.Message, Is.EqualTo("Invalid login code or password!"));
+            Assert.That(ex.StatusCode, Is.EqualTo(400));
+        });
+
+    }
+
+    [Test]
+    public async Task RegisterAsyncShouldReturnTrue()
+    {
+        // Arrange
+        var fixture = new Fixture();
+
+        fixture.Customize(new AutoMoqCustomization());
+
+        var userToAddDTO = fixture.Create<UserToAddDTO>();
+
+        var successUploadResult = fixture.Build<FileUploadResult>()
+            .With(p => p.StatusCode, HttpStatusCode.OK)
+            .Create();
+
+        _userManager.Setup(m => m.CreateAsync(It.IsAny<ApplicationUser>(), userToAddDTO.Password)).ReturnsAsync(IdentityResult.Success);
+        _storageService.Setup(m => m.UploadAsync(userToAddDTO.ProfilePicture, It.IsAny<string>())).ReturnsAsync(successUploadResult);
+
+        var userService = new UserService(_emailService.Object, _signInManager.Object, _userManager.Object, _mapper, _userRepository.Object, _configuration.Object, _storageService.Object);
+
+        // Act
+
+        var actual = await userService.RegisterAsync(userToAddDTO);
+
+        // Assert
+
+        Assert.That(actual, Is.True);
+    }
+
+    [Test]
+    public async Task RegisterAsyncWithFaildImageUploadShouldReturnTrue()
+    {
+        // Arrange
+        var fixture = new Fixture();
+
+        fixture.Customize(new AutoMoqCustomization());
+
+        var userToAddDTO = fixture.Create<UserToAddDTO>();
+
+        var faildUploadResult = fixture.Build<FileUploadResult>()
+            .With(p => p.StatusCode, HttpStatusCode.BadRequest)
+            .Create();
+
+        _userManager.Setup(m => m.CreateAsync(It.IsAny<ApplicationUser>(), userToAddDTO.Password)).ReturnsAsync(IdentityResult.Success);
+        _storageService.Setup(m => m.UploadAsync(userToAddDTO.ProfilePicture, It.IsAny<string>())).ReturnsAsync(faildUploadResult);
+
+        var userService = new UserService(_emailService.Object, _signInManager.Object, _userManager.Object, _mapper, _userRepository.Object, _configuration.Object, _storageService.Object);
+
+        // Act
+
+        var actual = await userService.RegisterAsync(userToAddDTO);
+
+        // Assert
+
+        Assert.That(actual, Is.True);
+    }
+
+    [Test]
+    public async Task RegisterAsyncWithFaildUserCreateShouldReturnFalse()
+    {
+        // Arrange
+        var fixture = new Fixture();
+
+        fixture.Customize(new AutoMoqCustomization());
+
+        var userToAddDTO = fixture.Create<UserToAddDTO>();
+
+        var faildUploadResult = fixture.Build<FileUploadResult>()
+            .With(p => p.StatusCode, HttpStatusCode.BadRequest)
+            .Create();
+
+        _userManager.Setup(m => m.CreateAsync(It.IsAny<ApplicationUser>(), userToAddDTO.Password)).ReturnsAsync(IdentityResult.Failed());
+        _storageService.Setup(m => m.UploadAsync(userToAddDTO.ProfilePicture, It.IsAny<string>())).ReturnsAsync(faildUploadResult);
+
+        var userService = new UserService(_emailService.Object, _signInManager.Object, _userManager.Object, _mapper, _userRepository.Object, _configuration.Object, _storageService.Object);
+
+        // Act
+
+        var actual = await userService.RegisterAsync(userToAddDTO);
+
+        // Assert
+
+        Assert.That(actual, Is.False);
     }
 }
