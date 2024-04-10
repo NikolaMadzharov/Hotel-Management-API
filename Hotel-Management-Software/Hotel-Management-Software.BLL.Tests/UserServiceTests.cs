@@ -202,4 +202,79 @@ public class UserServiceTests
 
         Assert.That(actual, Is.False);
     }
+
+    [Test]
+    public void PasswordResetAsyncWithValidUser()
+    {
+        // Arrange
+        var fixture = new Fixture();
+
+        fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
+        fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+        var userEntity = fixture.Create<ApplicationUser>();
+
+        var resetToken = fixture.Create<string>();
+        var newPassword = fixture.Create<string>();
+
+        _userManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(userEntity);
+        _userManager.Setup(m => m.ResetPasswordAsync(userEntity, resetToken, newPassword)).ReturnsAsync(IdentityResult.Success);
+
+        var userService = new UserService(_emailService.Object, _signInManager.Object, _userManager.Object, _mapper, _userRepository.Object, _configuration.Object, _storageService.Object);
+
+        // Act & Assert
+
+        Assert.DoesNotThrowAsync(async () => await userService.PasswordResetAsync(userEntity.UserName!, resetToken, newPassword));
+    }
+
+    [Test]
+    public void ResetPasswordAsyncWithInvalidUserShouldThrow()
+    {
+        // Arrange
+        var fixture = new Fixture();
+
+        var username = fixture.Create<string>();
+        var resetToken = fixture.Create<string>();
+        var newPassword = fixture.Create<string>();
+
+        _userManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync((ApplicationUser?)null);
+
+        var userService = new UserService(_emailService.Object, _signInManager.Object, _userManager.Object, _mapper, _userRepository.Object, _configuration.Object, _storageService.Object);
+
+        // Act & Assert
+
+        CustomException ex = Assert.ThrowsAsync<CustomException>(async () => await userService.PasswordResetAsync(username, resetToken, newPassword));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ex.Message, Is.EqualTo("Invalid login code."));
+            Assert.That(ex.StatusCode, Is.EqualTo(404));
+        });
+    }
+
+    [Test]
+    public void PasswordResetAsyncFaildToChangePasswordShouldThrow()
+    {
+        // Arrange
+        var fixture = new Fixture();
+
+        fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
+        fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+        var userEntity = fixture.Create<ApplicationUser>();
+
+        var resetToken = fixture.Create<string>();
+        var newPassword = fixture.Create<string>();
+
+        var identityError = fixture.Create<IdentityError>();
+
+        _userManager.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(userEntity);
+        _userManager.Setup(m => m.ResetPasswordAsync(userEntity, resetToken, newPassword)).ReturnsAsync(IdentityResult.Failed(identityError));
+
+        var userService = new UserService(_emailService.Object, _signInManager.Object, _userManager.Object, _mapper, _userRepository.Object, _configuration.Object, _storageService.Object);
+
+        // Act & Assert
+
+        Assert.ThrowsAsync<CustomException>(async () => await userService.PasswordResetAsync(userEntity.UserName!, resetToken, newPassword));
+    }
 }
