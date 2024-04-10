@@ -3,13 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel-Management-Software.API", "Hotel-Management-Software\Hotel-Management-Software.API.csproj", "{ED99C4EB-883E-4AA5-A2F1-26F26793A1B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel-Management-Software.API", "Hotel-Management-Software\Hotel-Management-Software.API.csproj", "{ED99C4EB-883E-4AA5-A2F1-26F26793A1B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel-Management-Software.DAL", "Hotel-Management-Software.DataAccess\Hotel-Management-Software.DAL.csproj", "{4BC66F35-C865-4A5F-8AD9-EE8BB0EBDF67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel-Management-Software.DAL", "Hotel-Management-Software.DataAccess\Hotel-Management-Software.DAL.csproj", "{4BC66F35-C865-4A5F-8AD9-EE8BB0EBDF67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel-Management-Software.BLL", "Hotel-Management-Software.BussinessLogic\Hotel-Management-Software.BLL.csproj", "{B5E4EBE1-135E-4FC2-AC60-395B29AF76D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel-Management-Software.BLL", "Hotel-Management-Software.BussinessLogic\Hotel-Management-Software.BLL.csproj", "{B5E4EBE1-135E-4FC2-AC60-395B29AF76D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel-Management-Software.DTO", "Hotel-Management-Software.DTO\Hotel-Management-Software.DTO.csproj", "{FEF427A6-42EB-46C4-9C71-497D4A6F4856}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel-Management-Software.DTO", "Hotel-Management-Software.DTO\Hotel-Management-Software.DTO.csproj", "{FEF427A6-42EB-46C4-9C71-497D4A6F4856}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{47A60517-D266-449B-AFF0-6E242DA3BBC5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit-tests", "Unit-tests", "{ED70D557-C32C-47FB-A70F-1A14AD365E59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel-Management-Software.API.Tests", "Hotel-Management-Software.API.Tests\Hotel-Management-Software.API.Tests.csproj", "{C14F8F33-70B2-4D51-B261-ACF24D7D18F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel-Management-Software.BLL.Tests", "Hotel-Management-Software.BLL.Tests\Hotel-Management-Software.BLL.Tests.csproj", "{C5887014-A456-4220-A7C7-4BFD330D8ED0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +41,22 @@ Global
 		{FEF427A6-42EB-46C4-9C71-497D4A6F4856}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEF427A6-42EB-46C4-9C71-497D4A6F4856}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEF427A6-42EB-46C4-9C71-497D4A6F4856}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C14F8F33-70B2-4D51-B261-ACF24D7D18F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C14F8F33-70B2-4D51-B261-ACF24D7D18F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C14F8F33-70B2-4D51-B261-ACF24D7D18F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C14F8F33-70B2-4D51-B261-ACF24D7D18F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5887014-A456-4220-A7C7-4BFD330D8ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5887014-A456-4220-A7C7-4BFD330D8ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5887014-A456-4220-A7C7-4BFD330D8ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5887014-A456-4220-A7C7-4BFD330D8ED0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ED70D557-C32C-47FB-A70F-1A14AD365E59} = {47A60517-D266-449B-AFF0-6E242DA3BBC5}
+		{C14F8F33-70B2-4D51-B261-ACF24D7D18F6} = {ED70D557-C32C-47FB-A70F-1A14AD365E59}
+		{C5887014-A456-4220-A7C7-4BFD330D8ED0} = {ED70D557-C32C-47FB-A70F-1A14AD365E59}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E93E971D-E01B-419A-A7D7-8021C62C666B}
