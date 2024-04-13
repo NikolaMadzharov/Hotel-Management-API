@@ -9,5 +9,9 @@ public class SalaryReportDTO
 
     public decimal Salary { get; set; }
 
+    public decimal? Bonus { get; set; }
+
+    public decimal? Penalty { get; set; }
+
     public DateTime Date { get; set; }
 }

@@ -27,4 +27,8 @@ public class SalaryReport
     public string EmployeeId { get; set; } = null!;
     [ForeignKey(nameof(EmployeeId))]
     public virtual ApplicationUser.ApplicationUser Employee { get; set; } = null!;
+
+    public decimal? Bonus { get; set; }
+
+    public decimal? Penalty { get; set; }
 }
