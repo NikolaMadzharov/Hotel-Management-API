@@ -2,8 +2,9 @@
 
 using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.DTO.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Security.Claims;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -47,6 +48,17 @@ public class AccountController : Controller
     {
         await _userService.
             PasswordResetAsync(userPasswordResetDTO.LoginCode, userPasswordResetDTO.ResetToken, userPasswordResetDTO.Password);
+
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpPost("ChangePassword")]
+    public async Task<IActionResult> ChangePassword([FromForm] ChangePasswordDTO changePasswordDTO)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        await _userService.ChangePasswordAsync(userId!, changePasswordDTO);
 
         return Ok();
     }
