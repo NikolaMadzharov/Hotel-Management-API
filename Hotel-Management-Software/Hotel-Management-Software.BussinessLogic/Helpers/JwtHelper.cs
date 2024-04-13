@@ -20,9 +20,13 @@ public static class JwtHelper
         List<Claim> claims =
         [
             new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim("ProfilePicture", user.Image!.URL),
             new Claim("FullName", $"{user.FirstName} {user.LastName}")
         ];
+
+        if (user.Image is not null)
+        {
+            claims.Add(new Claim("ProfilePicture", user.Image.URL));
+        }
 
         foreach (var role in roles)
         {
