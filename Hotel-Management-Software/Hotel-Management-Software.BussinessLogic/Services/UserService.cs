@@ -97,4 +97,16 @@ public class UserService : IUserService
             throw new CustomException(result.Errors.First().Description, 400);
         }
     }
+
+    public async Task ChangePasswordAsync(string userId, ChangePasswordDTO changePasswordDTO)
+    {
+        var user = await _userManager.FindByIdAsync(userId) ?? throw new CustomException("Failed to fech user.", 500);
+
+        var result = await _userManager.ChangePasswordAsync(user, changePasswordDTO.CurrentPassword, changePasswordDTO.NewPassword);
+
+        if (!result.Succeeded)
+        {
+            throw new CustomException(result.Errors.First().Description, 400);
+        }
+    }
 }
