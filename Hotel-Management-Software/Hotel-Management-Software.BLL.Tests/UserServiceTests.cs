@@ -277,4 +277,98 @@ public class UserServiceTests
 
         Assert.ThrowsAsync<CustomException>(async () => await userService.PasswordResetAsync(userEntity.UserName!, resetToken, newPassword));
     }
+
+    [Test]
+    public void ChangePasswordWithValidUserDoesNotThrow()
+    {
+        // Arrange
+
+        var fixture = new Fixture();
+
+        fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
+        fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+        var changePasswordDTO = fixture.Create<ChangePasswordDTO>();
+
+        string fakeUserId = Guid.NewGuid().ToString();
+
+        var fakeUser = fixture.Build<ApplicationUser>()
+            .With(p => p.Id, fakeUserId)
+            .Create();
+
+        _userManager.Setup(m => m.FindByIdAsync(fakeUserId)).ReturnsAsync(fakeUser);
+        _userManager.Setup(m => m.ChangePasswordAsync(fakeUser, changePasswordDTO.CurrentPassword, changePasswordDTO.NewPassword)).ReturnsAsync(IdentityResult.Success);
+
+        var userService = new UserService(_emailService.Object, _signInManager.Object, _userManager.Object, _mapper, _userRepository.Object, _configuration.Object, _storageService.Object);
+
+        // Act & Assert
+
+        Assert.DoesNotThrowAsync(async () => await userService.ChangePasswordAsync(fakeUserId, changePasswordDTO));
+    }
+
+    [Test]
+    public void ChangePasswordWithInvalidUserIdShouldThrow()
+    {
+        // Arrange
+
+        var fixture = new Fixture();
+
+        fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
+        fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+        var changePasswordDTO = fixture.Create<ChangePasswordDTO>();
+
+        string fakeUserId = Guid.NewGuid().ToString();
+
+        _userManager.Setup(m => m.FindByIdAsync(It.IsAny<string>())).ReturnsAsync((ApplicationUser?)null);
+
+        var userService = new UserService(_emailService.Object, _signInManager.Object, _userManager.Object, _mapper, _userRepository.Object, _configuration.Object, _storageService.Object);
+
+        // Act & Assert
+
+        var ex = Assert.ThrowsAsync<CustomException>(async () => await userService.ChangePasswordAsync(fakeUserId, changePasswordDTO));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ex, Is.Not.Null);
+            Assert.That(ex.Message, Is.EqualTo("Failed to fech user."));
+            Assert.That(ex.StatusCode, Is.EqualTo(500));
+        });
+    }
+
+    [Test]
+    public void ChangePasswordFaildShouldThrow()
+    {
+        // Arrange
+
+        var fixture = new Fixture();
+
+        fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
+        fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+        var changePasswordDTO = fixture.Create<ChangePasswordDTO>();
+
+        string fakeUserId = Guid.NewGuid().ToString();
+
+        var fakeUser = fixture.Build<ApplicationUser>()
+            .With(p => p.Id, fakeUserId)
+            .Create();
+
+        var identitError = fixture.Create<IdentityError>();
+
+        _userManager.Setup(m => m.FindByIdAsync(fakeUserId)).ReturnsAsync(fakeUser);
+        _userManager.Setup(m => m.ChangePasswordAsync(fakeUser, changePasswordDTO.CurrentPassword, changePasswordDTO.NewPassword)).ReturnsAsync(IdentityResult.Failed(identitError));
+
+        var userService = new UserService(_emailService.Object, _signInManager.Object, _userManager.Object, _mapper, _userRepository.Object, _configuration.Object, _storageService.Object);
+
+        // Act & Assert
+
+        var ex = Assert.ThrowsAsync<CustomException>(async () => await userService.ChangePasswordAsync(fakeUserId, changePasswordDTO));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ex.Message, Is.Not.Null);
+            Assert.That(ex.StatusCode, Is.EqualTo(400));
+        });
+    }
 }
