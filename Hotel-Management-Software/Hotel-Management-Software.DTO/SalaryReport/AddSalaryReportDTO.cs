@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace Hotel_Management_Software.DTO.SalaryReport;
 
-namespace Hotel_Management_Software.DTO.SalaryReport;
-
-
+using System.ComponentModel.DataAnnotations;
 
 public class AddSalaryReportDTO
 {
