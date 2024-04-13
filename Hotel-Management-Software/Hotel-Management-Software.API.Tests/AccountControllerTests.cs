@@ -3,7 +3,9 @@
 using Hotel_Management_Software.BBL.Services.IServices;
 using Hotel_Management_Software.Controllers;
 using Hotel_Management_Software.DTO.User;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 public class AccountControllerTests
 {
@@ -140,9 +142,41 @@ public class AccountControllerTests
 
         var controller = new AccountController(_userService.Object);
 
-        // Act
+        // Act & Assert
 
         IActionResult actionResult = await controller.PasswordReset(userPasswordResetDto);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(actionResult, Is.Not.Null);
+            Assert.That(actionResult, Is.InstanceOf<OkResult>());
+        });
+    }
+
+    [Test]
+    public async Task ChangePasswordShoudReturnOk()
+    {
+        // Arrange
+
+        var fixture = new Fixture();
+
+        var changePasswordDto = fixture.Create<ChangePasswordDTO>();
+
+        var controller = new AccountController(_userService.Object);
+
+        var user = new Mock<ClaimsPrincipal>();
+
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = user.Object
+            }
+        };
+
+        // Act
+
+        IActionResult actionResult = await controller.ChangePassword(changePasswordDto);
 
         Assert.Multiple(() =>
         {
