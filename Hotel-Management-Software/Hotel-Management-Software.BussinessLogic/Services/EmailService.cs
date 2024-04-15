@@ -83,7 +83,7 @@ public class EmailService : IEmailService
 
         using var smtp = new SmtpClient();
         await smtp.ConnectAsync("smtp.gmail.com", 587, false);
-        await smtp.AuthenticateAsync("innkeepershotelmanagement@gmail.com", "tdwgmatlsyofcuga"); 
+        await smtp.AuthenticateAsync("innkeepershotelmanagement@gmail.com", "tdwgmatlsyofcuga");
         await smtp.SendAsync(email);
         await smtp.DisconnectAsync(true);
     }
@@ -230,6 +230,85 @@ public class EmailService : IEmailService
 </body>
 </html>
 ";
+
+        var builder = new BodyBuilder();
+        builder.HtmlBody = htmlBody;
+        email.Body = builder.ToMessageBody();
+
+        using var smtp = new SmtpClient();
+        await smtp.ConnectAsync("smtp.gmail.com", 587, false);
+        await smtp.AuthenticateAsync("innkeepershotelmanagement@gmail.com", "tdwgmatlsyofcuga"); // needs to be hiddden somewhere else
+        await smtp.SendAsync(email);
+        await smtp.DisconnectAsync(true);
+    }
+
+    public async Task SendEmailChangeTokenAsync(ApplicationUser user, string newEmail, string token)
+    {
+        var email = new MimeMessage();
+        email.From.Add(MailboxAddress.Parse("innkeepershotelmanagement@gmail.com"));
+        email.To.Add(MailboxAddress.Parse(newEmail));
+        email.Subject = "Email change request.";
+
+        var htmlBody = $@"
+            <!DOCTYPE html>
+            <html lang='en'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Password Setup</title>
+                <style>
+                    body {{
+                        font-family: Arial, sans-serif;
+                        background-color: #f4f4f4;
+                        margin: 0;
+                        padding: 0;
+                    }}
+                    .container {{
+                        max-width: 600px;
+                        margin: 50px auto;
+                        padding: 20px;
+                        background-color: #fff;
+                        border-radius: 5px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    }}
+                    h1 {{
+                        color: #333;
+                        text-align: center;
+                    }}
+                    p {{
+                        color: #666;
+                        line-height: 1.6;
+                        text-align: center;
+                    }}
+                    .code {{
+                        font-size: 24px;
+                        font-weight: bold;
+                        margin-bottom: 30px;
+                        color: #007bff;
+                    }}
+                    .note {{
+                        color: #999;
+                        margin-top: 20px;
+                    }}
+                    .button {{
+                        display: inline-block;
+                        padding: 10px 20px;
+                        background-color: #007bff;
+                        color: #fff;
+                        text-decoration: none;
+                        border-radius: 5px;
+                    }}
+                </style>
+            </head>
+            <body>
+                <div class='container'>
+                    <h1>Email Change Request</h1>
+                    <p class='code'>Email change token: {token}</p>
+                    <p class='note'>If you did not request an email change, please ignore this email.</p>
+                </div>
+            </body>
+            </html>
+            ";
 
         var builder = new BodyBuilder();
         builder.HtmlBody = htmlBody;

@@ -10,4 +10,6 @@ public interface IEmailService
     Task SendResetLinkAsync(ApplicationUser user, string resetToken);
 
     Task SendEmailForBookedReservation(Reservation reservation);
+
+    Task SendEmailChangeTokenAsync(ApplicationUser user, string newEmail, string token);
 }
