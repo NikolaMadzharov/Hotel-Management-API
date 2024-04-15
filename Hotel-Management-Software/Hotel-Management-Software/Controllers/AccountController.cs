@@ -62,4 +62,26 @@ public class AccountController : Controller
 
         return Ok();
     }
+
+    [Authorize]
+    [HttpPost("RequestEmailChange")]
+    public async Task<IActionResult> RequestEmailChange([FromForm] EmailChangeRequestDTO emailChangeRequestDTO)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        await _userService.GenerateChangeEmailTokenAsync(userId!, emailChangeRequestDTO.NewEmail);
+
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpPost("ChangeEmail")]
+    public async Task<IActionResult> ChangeEmail([FromForm] EmailChangeDTO emailChangeDTO)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        await _userService.ChangeEmailAsync(userId!, emailChangeDTO);
+
+        return Ok();
+    }
 }
