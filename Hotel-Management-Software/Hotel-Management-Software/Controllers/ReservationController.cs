@@ -49,12 +49,11 @@ public class ReservationController : Controller
     {
         var result = await _reservationService.GetAllReservationsByRoomAsync(roomId);
 
-        if (result is not null)
-        {
-            return Ok(new { ALlReservations = result });
-        }
+      
+        return Ok(new { ALlReservations = result });
+        
 
-        return BadRequest();
+      
     }
 
 

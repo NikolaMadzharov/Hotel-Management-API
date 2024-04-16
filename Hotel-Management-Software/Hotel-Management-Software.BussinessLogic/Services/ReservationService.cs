@@ -65,7 +65,8 @@ namespace Hotel_Management_Software.BBL.Services
 
             var reservationDTO = _mapper.Map<List<ReservationDTO>>(reservation);
 
-            return reservationDTO;
+            return reservationDTO != null && reservationDTO.Count > 0 ? reservationDTO :  null;
+
         }
 
         public  async Task<List<CalendarReservationDTO>> GetCalendarBookedDayAsync(Guid roomId)
