@@ -303,7 +303,8 @@ public class EmailService : IEmailService
             <body>
                 <div class='container'>
                     <h1>Email Change Request</h1>
-                    <p class='code'>Email change token: {token}</p>
+                    <p class='note'>Please click the button below to confirm email change:</p>
+                    <a class='button' href='http://localhost:3000/settings/account/email-reset?email={newEmail}&token={token}'>Confirm</a>
                     <p class='note'>If you did not request an email change, please ignore this email.</p>
                 </div>
             </body>
