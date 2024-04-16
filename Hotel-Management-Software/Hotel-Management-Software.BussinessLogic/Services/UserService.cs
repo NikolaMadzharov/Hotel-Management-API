@@ -109,4 +109,25 @@ public class UserService : IUserService
             throw new CustomException(result.Errors.First().Description, 400);
         }
     }
+
+    public async Task GenerateChangeEmailTokenAsync(string userId, string newEmail)
+    {
+        var user = await _userManager.FindByIdAsync(userId) ?? throw new CustomException("Failed to fech user.", 500);
+
+        string changeToken = await _userManager.GenerateChangeEmailTokenAsync(user, newEmail);
+        
+        await _emailService.SendEmailChangeTokenAsync(user, newEmail, changeToken);
+    }
+
+    public async Task ChangeEmailAsync(string userId, EmailChangeDTO emailChangeDTO)
+    {
+        var user = await _userManager.FindByIdAsync(userId) ?? throw new CustomException("Failed to fech user.", 500);
+
+        var result = await _userManager.ChangeEmailAsync(user, emailChangeDTO.NewEmail, emailChangeDTO.Token);
+
+        if (!result.Succeeded)
+        {
+            throw new CustomException(result.Errors.First().Description, 400);
+        }
+    }
 }

@@ -1,6 +1,6 @@
-﻿using Hotel_Management_Software.DTO.User;
+﻿namespace Hotel_Management_Software.BBL.Services.IServices;
 
-namespace Hotel_Management_Software.BBL.Services.IServices;
+using Hotel_Management_Software.DTO.User;
 
 public interface IUserService
 {
@@ -11,4 +11,8 @@ public interface IUserService
     Task PasswordResetAsync(string username, string resetToken, string newPassword);
 
     Task ChangePasswordAsync(string userId, ChangePasswordDTO changePasswordDTO);
+
+    Task GenerateChangeEmailTokenAsync(string userId, string newEmail);
+
+    Task ChangeEmailAsync(string userId, EmailChangeDTO emailChangeDTO);
 }
