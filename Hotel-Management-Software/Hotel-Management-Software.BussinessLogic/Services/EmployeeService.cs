@@ -56,6 +56,7 @@ public class EmployeeService : IEmployeeService
         await _userRepository.UpdateAsync(employee);
 
         var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
+        employeeDTO!.Roles = await _userManager.GetRolesAsync(employee!);
 
         return employeeDTO;
     }
@@ -79,7 +80,11 @@ public class EmployeeService : IEmployeeService
 
             await _emailService.SendResetLinkAsync(employee!, resetToken);
 
-            return _mapper.Map<EmployeeDTO>(employee);
+            var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
+
+            employeeDTO!.Roles = await _userManager.GetRolesAsync(employee!);
+
+            return employeeDTO;
         }
 
         return null;
@@ -103,6 +108,7 @@ public class EmployeeService : IEmployeeService
         await _userRepository.UpdateAsync(employee);
 
         var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
+        employeeDTO!.Roles = await _userManager.GetRolesAsync(employee!);
 
         return employeeDTO;
     }
@@ -123,6 +129,7 @@ public class EmployeeService : IEmployeeService
         _ = await _userRepository.UpdateAsync(employee!);
 
         var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
+        employeeDTO!.Roles = await _userManager.GetRolesAsync(employee!);
 
         return employeeDTO;
     }
